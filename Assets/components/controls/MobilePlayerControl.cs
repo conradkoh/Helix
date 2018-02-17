@@ -7,12 +7,12 @@ public class MobilePlayerControl:IPlayerControl
 	{
 	}
 
-	public override void Fire ()
+	public override bool ShouldPlayerFire ()
 	{
-		Debug.Log ("Mobile Firing!");
+		return true;
 	}
 
-	public override void Move ()
+	public override void ShouldPlayerMove ()
 	{
 
 	}

@@ -7,12 +7,12 @@ public class DesktopPlayerControl: IPlayerControl
 	{
 	}
 
-	public override void Fire ()
+	public override bool ShouldPlayerFire ()
 	{
-		Debug.Log ("Desktop Firing!");
+		return true;
 	}
 
-	public override void Move ()
+	public override void ShouldPlayerMove ()
 	{
 		
 	}

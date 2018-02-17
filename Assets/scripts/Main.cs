@@ -6,25 +6,17 @@ public class Main : MonoBehaviour
 {
 
 	public IPlayerControl controls;
+	public PlayerControlsController playerControlsController;
 	// Use this for initialization
 	void Start ()
 	{
-		switch (PlayerControlConfig.MODE) {
-		case MODES.DESKTOP:
-			this.controls = new DesktopPlayerControl ();
-			break;
-		case MODES.MOBILE:
-			this.controls = new MobilePlayerControl ();
-			break;
-		default:
-			break;
-		}
-
+		this.controls = PlayerControlFactory.GetControls ();
+		this.playerControlsController = PlayerControlsController.GetInstance ();
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-		this.controls.Fire ();
+		this.playerControlsController.CheckPlayerFiring (this.controls);
 	}
 }
