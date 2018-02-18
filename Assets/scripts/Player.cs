@@ -17,8 +17,12 @@ public class Player : MonoBehaviour
         controller.Fire += Fire;
     }
 
-    public void Fire(object sender, PlayerFiredArgs args)
+    public void Fire(object sender, FireIntentSpecifiedArgs args)
     {
         Debug.Log("Player Firing!");
+    }
+
+    public void Move(Vector2 direction){
+
     }
 }

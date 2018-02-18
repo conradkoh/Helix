@@ -11,7 +11,7 @@ namespace Helix.Components.Controls.Controllers
     {
         private static UserInputController _instance = null;
 
-        public event PlayerFired Fire;
+        public event FireIntentSpecified Fire;
 
         private UserInputControl _controls;
 
