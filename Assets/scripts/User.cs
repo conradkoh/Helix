@@ -7,14 +7,15 @@ public class User : MonoBehaviour
 {
     public UserInputController playerControlsController;
     // Use this for initialization
-    void Awake ()
+    void Awake()
     {
-        this.playerControlsController = UserInputController.GetInstance ();
+        this.playerControlsController = UserInputController.GetInstance();
     }
 
     // Update is called once per frame
-    void Update ()
+    void Update()
     {
-        this.playerControlsController.CheckPlayerFiring ();
+        this.playerControlsController.CheckPlayerFiring();
+        this.playerControlsController.CheckPlayerMoving();
     }
 }

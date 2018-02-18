@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     public void Awake()
     {
         controller.Fire += Fire;
+        controller.Move += Move;
     }
 
     public void Fire(object sender, FireIntentSpecifiedArgs args)
@@ -22,7 +23,8 @@ public class Player : MonoBehaviour
         Debug.Log("Player Firing!");
     }
 
-    public void Move(Vector2 direction){
-
+    public void Move(object sender, MoveIntentSpecifiedArgs args)
+    {
+        Debug.Log(String.Format("Player Moving x: {0}, y: {1}", args.direction.x, args.direction.y));
     }
 }

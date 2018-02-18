@@ -12,8 +12,9 @@ namespace Helix.Components.Controls.Controllers
         private static UserInputController _instance = null;
 
         public event FireIntentSpecified Fire;
+        public event MoveIntentSpecified Move;
 
-        private UserInputControl _controls;
+        private UserInputControls.UserInputControl _controls;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserInputController"/> class.
@@ -48,6 +49,15 @@ namespace Helix.Components.Controls.Controllers
                 {
                     this.Fire(this, null); 
                 }
+            }
+        }
+
+        public void CheckPlayerMoving()
+        {
+            Vector2 direction = this._controls.GetPlayerMovementDirection();
+            if (direction != null && this.Move != null)
+            {
+                this.Move(this, new MoveIntentSpecifiedArgs(direction));
             }
         }
 

@@ -7,7 +7,7 @@ namespace Helix.Components.Controls.UserInputControls
 	
         public abstract bool ShouldPlayerFire();
 
-        public abstract void ShouldPlayerMove();
-
+        public abstract Vector2 GetPlayerMovementDirection();
+     
     }
 }

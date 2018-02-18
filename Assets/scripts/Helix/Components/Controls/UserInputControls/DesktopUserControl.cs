@@ -14,9 +14,9 @@ namespace Helix.Components.Controls.UserInputControls
             return true;
         }
 
-        public override void ShouldPlayerMove()
+        public override Vector2 GetPlayerMovementDirection()
         {
-		
+            return new Vector2(1, 1);
         }
     }
 }
