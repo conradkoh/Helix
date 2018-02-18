@@ -1,22 +1,24 @@
 ﻿using System;
 using UnityEngine;
+using Helix.Components.Controls.Controllers;
+using Helix.Components.Controls.Events;
 
 public class Player : MonoBehaviour
 {
-	PlayerControlsController controller = PlayerControlsController.GetInstance ();
+    UserInputController controller = UserInputController.GetInstance();
 
-	public void Awake ()
-	{
-		controller.Fire += Fire;
-	}
+    public Player()
+    {
 
-	public Player ()
-	{
-		
-	}
+    }
 
-	public void Fire (object sender, PlayerFiredArgs args)
-	{
-		Debug.Log ("Player Firing!");
-	}
+    public void Awake()
+    {
+        controller.Fire += Fire;
+    }
+
+    public void Fire(object sender, PlayerFiredArgs args)
+    {
+        Debug.Log("Player Firing!");
+    }
 }

@@ -1,22 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Helix.Components.Controls.Controllers;
 
 public class Main : MonoBehaviour
 {
+    private User _user;
 
-	public IPlayerControl controls;
-	public PlayerControlsController playerControlsController;
 	// Use this for initialization
 	void Start ()
 	{
-		this.controls = PlayerControlFactory.GetControls ();
-		this.playerControlsController = PlayerControlsController.GetInstance ();
+        this._user = gameObject.AddComponent<User>(); //Instantiate the user
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-		this.playerControlsController.CheckPlayerFiring (this.controls);
 	}
 }
