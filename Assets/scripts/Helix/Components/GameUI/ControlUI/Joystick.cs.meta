@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 86dce69581f852348855dc8dd98e9126
+timeCreated: 1518967520
+licenseType: Free
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - inner_sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  - outer_sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  - inner: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

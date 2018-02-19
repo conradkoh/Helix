@@ -9,7 +9,7 @@ namespace  Helix.Components.Controls.Configs {
 
 	public class UserControlConfig
 	{
-		public const MODES MODE = MODES.DESKTOP;
+		public const MODES MODE = MODES.MOBILE;
 
 		public UserControlConfig ()
 		{
