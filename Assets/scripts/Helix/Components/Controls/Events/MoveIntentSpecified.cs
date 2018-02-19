@@ -6,7 +6,7 @@ namespace Helix.Components.Controls.Events
 {
     public class MoveIntentSpecifiedArgs : System.EventArgs
     {
-        public Vector2 direction { get; }
+        public Vector2 direction { get; set; }
 
         public MoveIntentSpecifiedArgs(Vector2 direction)
         {

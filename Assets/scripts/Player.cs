@@ -2,19 +2,21 @@
 using UnityEngine;
 using Helix.Components.Controls.Controllers;
 using Helix.Components.Controls.Events;
+using Helix.Components.Operator;
 
 public class Player : MonoBehaviour
 {
     UserInputController controller = UserInputController.GetInstance();
+    public float health = 0;
+    private Operator _operator;
 
     public Player()
     {
-
     }
 
     public void Awake()
     {
-		
+        this._operator = new Operator(this.health);
     }
 
 	public void Start()
@@ -31,6 +33,7 @@ public class Player : MonoBehaviour
     public void Fire(object sender, FireIntentSpecifiedArgs args)
     {
         Debug.Log("Player Firing!");
+        Debug.Log(this._operator.GetSummary());
     }
 
     public void Move(object sender, MoveIntentSpecifiedArgs args)

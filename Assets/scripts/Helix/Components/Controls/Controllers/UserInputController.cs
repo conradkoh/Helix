@@ -55,12 +55,11 @@ namespace Helix.Components.Controls.Controllers
         public void CheckPlayerMoving()
         {
             Vector2 direction = this._controls.GetPlayerMovementDirection();
-			if (direction != Vector2.zero && this.Move != null)
+            if (direction != Vector2.zero && this.Move != null)
             {
                 this.Move(this, new MoveIntentSpecifiedArgs(direction));
             }
         }
 
     }
-
 }
