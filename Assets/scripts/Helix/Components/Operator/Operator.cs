@@ -8,15 +8,17 @@ namespace Helix.Components.Operator
     {
         private float _health;
         private string _name;
+        private OperatorStats _baseStats;
         private OperatorStats _currentStats;
         private OperatorStats _maxStats;
         private List<Equipment> _equipment = new List<Equipment>();
 
-        public Operator(float health)
+        public Operator(OperatorStats stats)
         {
-            this._health = health;
-            this._maxStats = new OperatorStats(this);
-            this._currentStats = new OperatorStats(this);
+            this._baseStats = stats;
+            var eqstats = new OperatorStats(this._equipment); //Get the equipment stats from the user
+            this._maxStats = OperatorStats.Add(stats, eqstats); 
+            this._currentStats = OperatorStats.Add(stats, eqstats);
         }
 
         public void TakeDamage(float amount)
@@ -47,7 +49,7 @@ namespace Helix.Components.Operator
 
         public string GetSummary()
         {
-            return String.Format("Health: {0}, {1}", this._health, this._currentStats.GetSummary());
+            return String.Format("Current Stats: {0}, Max Stats: {1}", this._currentStats.GetSummary(), this._maxStats.GetSummary());
         }
     }
 }

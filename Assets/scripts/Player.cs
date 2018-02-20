@@ -15,8 +15,8 @@ public class Player : MonoBehaviour
     }
 
     public void Awake()
-    {
-        this._operator = new Operator(this.health);
+    {   
+        this._operator = new Operator(new OperatorStats(this.health));
         controller.Fire += Fire;
         controller.Move += Move;
     }
