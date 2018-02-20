@@ -5,42 +5,43 @@ namespace Helix.Components.Controls.UserInputControls
 {
     public class MobileUserControl:UserInputControl
     {
-		public GameObject _joystick;
+        public GameObject _joystick;
+
         public MobileUserControl()
         {
-			//event subscriptions
-			Main.ShouldInitControls += InitControls;
-			UIEngine.ShouldBuildUI += RequestBuildMobileUI;
+            //event subscriptions
+            Main.ShouldInitControls += InitControls;
+            UIEngine.ShouldBuildUI += RequestBuildMobileUI;
         }
 
-		public void InitControls()
-		{
-			this._joystick = UIEngine.GetInstance ().GetJoystick ();
-		}
+        public void InitControls()
+        {
+            this._joystick = UIEngine.GetInstance().GetJoystick();
+        }
 
         public override bool ShouldPlayerFire()
         {
-            return false;
+            return true;
         }
 
         public override Vector2 GetPlayerMovementDirection()
         {
-			if(_joystick != null)
-			{
-				Vector2 output = _joystick.GetComponent<Joystick> ().currentOutput;
-			//	Debug.Log (output);
-				return output;
-			}
-			else
-			{
-				return Vector2.zero;				
-			}
+            if (_joystick != null)
+            {
+                Vector2 output = _joystick.GetComponent<Joystick>().currentOutput;
+                //	Debug.Log (output);
+                return output;
+            }
+            else
+            {
+                return Vector2.zero;				
+            }
 
         }
 
-		public void RequestBuildMobileUI()
-		{
-			UIEngine.BuildMobileControls ();
-		}
+        public void RequestBuildMobileUI()
+        {
+            UIEngine.BuildMobileControls();
+        }
     }
 }
