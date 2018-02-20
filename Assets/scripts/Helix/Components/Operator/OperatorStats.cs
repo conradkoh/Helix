@@ -1,28 +1,61 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Helix.Components.Operator
 {
     public class OperatorStats
     {
-
         public float health = 0;
         public float armor = 0;
         public float attack = 0;
         public float armorPenetration = 0;
         public float movementSpeed = 0;
 
-        public OperatorStats(Operator op)
+        public OperatorStats(List<Equipment> equipment)
         {
-            var equipment = op.GetEquipment();
             foreach (Equipment eq in equipment)
             {
-                this.health += eq.health;
-                this.armor += eq.armor;
-                this.attack += eq.attack;
-                this.armorPenetration += eq.armorPenetration;
-                this.movementSpeed += eq.movementSpeed;
+                this.Equip(eq);
             }
+        }
+
+        public OperatorStats(float health, float armor = 0, float attack = 0, float armorPenetration = 0, float movementSpeed = 0)
+        {
+            this.health = health;
+            this.armor = armor;
+            this.attack = attack;
+            this.armorPenetration = armorPenetration;
+            this.movementSpeed = movementSpeed;
+        }
+
+        public static OperatorStats Add(OperatorStats stats1, OperatorStats stats2)
+        {
+            return new OperatorStats(
+                stats1.health + stats2.health,
+                stats1.armor + stats2.armor,
+                stats1.attack + stats2.attack,
+                stats1.armorPenetration + stats2.armorPenetration,
+                stats1.movementSpeed + stats2.movementSpeed
+            );
+        }
+
+        public void Equip(Equipment eq)
+        {
+            this.health += eq.health;
+            this.armor += eq.armor;
+            this.attack += eq.attack;
+            this.armorPenetration += eq.armorPenetration;
+            this.movementSpeed += eq.movementSpeed;
+        }
+
+        public void UnEquip(Equipment eq)
+        {
+            this.health -= eq.health;
+            this.armor -= eq.armor;
+            this.attack -= eq.attack;
+            this.armorPenetration -= eq.armorPenetration;
+            this.movementSpeed -= eq.movementSpeed;
         }
 
         public float GetHealth()
