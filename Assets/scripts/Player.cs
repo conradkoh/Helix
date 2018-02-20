@@ -15,8 +15,17 @@ public class Player : MonoBehaviour
     }
 
     public void Awake()
-    {   
+    {
         this._operator = new Operator(new OperatorStats(this.health));
+    }
+
+    public void Start()
+    {
+        InitPlayer(); //ideally this should be called by subscribing to an event on GameEngine, but im putting it here first to get it out of the way
+    }
+
+    public void InitPlayer()
+    {
         controller.Fire += Fire;
         controller.Move += Move;
     }

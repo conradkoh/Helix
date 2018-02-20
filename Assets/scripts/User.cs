@@ -9,8 +9,15 @@ public class User : MonoBehaviour
     // Use this for initialization
     void Awake()
     {
-        this.playerControlsController = UserInputController.GetInstance();
+		InitUser();
+		//Main.ShouldInitControls += InitUser;
     }
+
+	public void InitUser()
+	{
+		Debug.Log ("Initializing User...");
+		this.playerControlsController = UserInputController.GetInstance ();
+	}
 
     // Update is called once per frame
     void Update()

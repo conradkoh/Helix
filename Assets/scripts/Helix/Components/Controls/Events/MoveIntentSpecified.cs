@@ -11,7 +11,8 @@ namespace Helix.Components.Controls.Events
         public MoveIntentSpecifiedArgs(Vector2 direction)
         {
             this.direction = direction;
-			Debug.Log ("Moving in direction: " + direction.ToString());
+			//To debug inputs and movement intent:
+			//Debug.Log ("Moving in direction: " + direction.ToString());
         }
     }
 
