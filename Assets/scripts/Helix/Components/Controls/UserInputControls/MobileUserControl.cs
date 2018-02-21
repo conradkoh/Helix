@@ -97,6 +97,11 @@ namespace Helix.Components.Controls.UserInputControls
 			}
 		}
 
+		public override void Update()
+		{
+
+		}
+
 		public void RequestBuildMobileUI()
 		{
 			UIEngine.BuildMobileControls();

@@ -167,8 +167,8 @@ MonoBehaviour:
   inner_radius: 50
   outer_radius: 100
   inner: {fileID: 0}
-  currentEightOutput: {x: 0, y: 0}
-  currentRotationOutput: {x: 0, y: 0, z: 0, w: 1}
+  outputAngle: 0
+  isActive: 0
 --- !u!114 &73813141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,6 +321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 520294cadf1e5fc4999e9edcf5249cec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camera: {fileID: 458302299}
 --- !u!1 &990273196
 GameObject:
   m_ObjectHideFlags: 0
@@ -629,8 +630,8 @@ MonoBehaviour:
   inner_radius: 50
   outer_radius: 100
   inner: {fileID: 0}
-  currentEightOutput: {x: 0, y: 0}
-  currentRotationOutput: {x: 0, y: 0, z: 0, w: 1}
+  outputAngle: 0
+  isActive: 0
 --- !u!114 &1507252969
 MonoBehaviour:
   m_ObjectHideFlags: 0

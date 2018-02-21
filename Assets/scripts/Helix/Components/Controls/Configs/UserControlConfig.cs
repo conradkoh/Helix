@@ -1,21 +1,24 @@
 ﻿using System;
-namespace  Helix.Components.Controls.Configs {
 
-	public enum MODES
-	{
-		MOBILE = 1,
-		DESKTOP = 2
-	};
+namespace  Helix.Components.Controls.Configs
+{
 
-	public class UserControlConfig
-	{
-		public const MODES MODE = MODES.MOBILE;
+    public enum MODES
+    {
+        MOBILE = 1,
+        DESKTOP = 2}
 
-		public UserControlConfig ()
-		{
-		}
+    ;
 
-	}
+    public class UserControlConfig
+    {
+        public const MODES MODE = MODES.DESKTOP;
+
+        public UserControlConfig()
+        {
+        }
+
+    }
 
 	
 }
