@@ -23,7 +23,7 @@ public class User : MonoBehaviour
     void Update()
     {
         this.playerControlsController.CheckPlayerFiring();
-        this.playerControlsController.CheckPlayerMoving();
+        this.playerControlsController.CheckPlayerMoving();    
         this.playerControlsController.CheckPlayerFacing();
         this.playerControlsController.Update();
     }

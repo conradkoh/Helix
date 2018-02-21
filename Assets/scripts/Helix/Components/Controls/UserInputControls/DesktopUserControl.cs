@@ -44,10 +44,13 @@ namespace Helix.Components.Controls.UserInputControls
 			return output;
 		}
 
+		public override bool GetPlayerShouldMove()
+		{
+			return Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D);
+		}
 
 		public override Quaternion GetPlayerFaceDirection()
 		{
-			Camera camera = GameEngine.GameEngine.GetInstance().camera;
 			Vector2 mousePosition = Input.mousePosition;
 
 			if (faceControlActive)
@@ -67,6 +70,10 @@ namespace Helix.Components.Controls.UserInputControls
 			}				
 		}
 
+		public override bool GetPlayerShouldFace()
+		{
+			return faceControlActive || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D);
+		}
 
 		public override void Update()
 		{

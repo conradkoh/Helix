@@ -16,13 +16,15 @@ public class Player : MonoBehaviour
 
 	public void Awake()
 	{
-		this._operator = new Operator(new OperatorStats(this.health));
+		this._operator = new Operator(new OperatorStats(this.health, 0, 0, 0, 10f));
 	}
 
 	public void Start()
 	{
 		InitPlayer(); //ideally this should be called by subscribing to an event on GameEngine, but im putting it here first to get it out of the way
 	}
+
+
 
 	public void InitPlayer()
 	{
@@ -39,11 +41,16 @@ public class Player : MonoBehaviour
 
 	public void Move(object sender, MoveIntentSpecifiedArgs args)
 	{
-		Debug.Log(String.Format("Player Moving x: {0}, y: {1}", args.direction.x, args.direction.y));
+		//Debug.Log(String.Format("Player Moving x: {0}, y: {1}", args.direction.x, args.direction.y));
+		transform.position = new Vector3(args.direction.x, 0, args.direction.y) * _operator.GetStats().movementSpeed / 1000 + transform.position;
 	}
 
 	public void Face(object sender, FaceIntentSpecifiedArgs args)
 	{
-		Debug.Log(String.Format("Player Facing x: {0}", args.direction));
+		//Debug.Log(String.Format("Player Facing x: {0}", args.direction));
+
+		transform.rotation = args.direction;
 	}
+
+
 }

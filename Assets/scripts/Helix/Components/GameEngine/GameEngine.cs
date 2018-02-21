@@ -7,8 +7,6 @@ namespace Helix.Components.GameEngine
 {
 	public class GameEngine : MonoBehaviour
 	{
-		public Camera camera;
-
 		private User _user;
 		private static GameEngine _instance;
 

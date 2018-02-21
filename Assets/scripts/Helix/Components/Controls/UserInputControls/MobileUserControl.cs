@@ -30,38 +30,27 @@ namespace Helix.Components.Controls.UserInputControls
 		{
 			if (moveJoystick != null)
 			{
-				
-				float joystickOutput = moveJoystick.GetComponent<Joystick>().outputAngle;
+				Joystick js = moveJoystick.GetComponent<Joystick>();
 
-				float x = Mathf.Sin(joystickOutput * Mathf.Deg2Rad);
-				float y = Mathf.Cos(joystickOutput * Mathf.Deg2Rad);
-
-				if (Mathf.Abs(x) > 0.5)
+				if (js.isActive)
 				{
-					x = x / Mathf.Abs(x);
+					return js.eightPointOutput;
 				}
 				else
 				{
-					x = 0;
+					return Vector2.zero;				
 				}
-
-				if (Mathf.Abs(y) > 0.5)
-				{
-					y = y / Mathf.Abs(y);
-				}
-				else
-				{
-					y = 0;
-				}
-					
-				return new Vector2(x, y);
-				;
 			}
 			else
 			{
 				return Vector2.zero;				
 			}
 
+		}
+
+		public override bool GetPlayerShouldMove()
+		{
+			return moveJoystick.GetComponent<Joystick>().isActive;
 		}
 
 		public override Quaternion GetPlayerFaceDirection()
@@ -84,17 +73,21 @@ namespace Helix.Components.Controls.UserInputControls
 				}
 				else
 				{
-					float moveOutput = moveJS.outputAngle;
-					return Quaternion.Euler(0, moveOutput, 0);
-				}
-
-
-
+					Vector2 moveOutput = moveJS.eightPointOutput;
+					float outputAngle = Mathf.Rad2Deg * Mathf.Atan2(moveOutput.x, moveOutput.y);
+					return Quaternion.Euler(0, outputAngle, 0);
+				}					
 			}
 			else
 			{
 				return Quaternion.identity;				
 			}
+		}
+
+		public override bool GetPlayerShouldFace()
+		{
+			return faceJoystick.GetComponent<Joystick>().isActive || moveJoystick.GetComponent<Joystick>().isActive;
+			;
 		}
 
 		public override void Update()
