@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 8d713897a37c2422fa0e8fc5423541ae
+timeCreated: 1519312937
+licenseType: Free
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - target: {instanceID: 0}
+  - maxHealthBar: {instanceID: 0}
+  - currentHealthBar: {instanceID: 0}
+  - healthBarSprite: {fileID: 21300000, guid: 035cde85678dc45338a20b574a006a5d, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
