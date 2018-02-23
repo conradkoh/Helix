@@ -5,84 +5,88 @@ using UnityEngine;
 public class UIEngine : MonoBehaviour
 {
 
-	//events
-	public static event UIEngineEvent ShouldBuildUI;
+    //events
+    public static event UIEngineEvent ShouldBuildUI;
 
-	//UI Object references
-	public GameObject moveJoystick;
-	public GameObject faceJoystick;
+    //UI Object references
+    public GameObject moveJoystick;
+    public GameObject fireJoystick;
 
-	//singleton
-	private static UIEngine _instance;
+    //singleton
+    private static UIEngine _instance;
 
-	void Awake ()
-	{ 
-		if (_instance == null) {
-			_instance = this;
-		}
+    void Awake()
+    { 
+        if (_instance == null)
+        {
+            _instance = this;
+        }
 
-		Main.ShouldInitUI += InitUI;
-	}
+        Main.ShouldInitUI += InitUI;
+    }
 
-	public static UIEngine GetInstance ()
-	{
-		return UIEngine._instance;
-	}
+    public static UIEngine GetInstance()
+    {
+        return UIEngine._instance;
+    }
 
-	void Start ()
-	{
-	}
+    void Start()
+    {
+    }
 	
-	// Update is called once per frame
-	void Update ()
-	{
+    // Update is called once per frame
+    void Update()
+    {
 		
-	}
+    }
 
-	public void InitUI ()
-	{
-		Debug.Log ("Initializing UI...");
-		if (UIEngine.ShouldBuildUI != null) {
-			UIEngine.ShouldBuildUI ();
-		}
-	}
+    public void InitUI()
+    {
+        Debug.Log("Initializing UI...");
+        if (UIEngine.ShouldBuildUI != null)
+        {
+            UIEngine.ShouldBuildUI();
+        }
+    }
 
-	#region mobile
+    #region mobile
 
-	public static void BuildMobileControls ()
-	{
-		UIEngine._instance.GetMoveJoystick ().SetActive (true);
-		UIEngine._instance.GetFaceJoystick ().SetActive (true);
-	}
+    public static void BuildMobileControls()
+    {
+        UIEngine._instance.GetMoveJoystick().SetActive(true);
+        UIEngine._instance.GetFireJoystick().SetActive(true);
+    }
 
-	#endregion
+    #endregion
 
 
 
-	public GameObject GetMoveJoystick ()
-	{
-		if (this.moveJoystick == null) {
-			Debug.Log ("Move Joystick reference null");
-		}
+    public GameObject GetMoveJoystick()
+    {
+        if (this.moveJoystick == null)
+        {
+            Debug.Log("Move Joystick reference null");
+        }
 
-		return this.moveJoystick;
-	}
+        return this.moveJoystick;
+    }
 
-	public GameObject GetFaceJoystick ()
-	{
-		if (this.faceJoystick == null) {
-			Debug.Log ("Face Joystick reference null");
-		}
+    public GameObject GetFireJoystick()
+    {
+        if (this.fireJoystick == null)
+        {
+            Debug.Log("Fire Joystick reference null");
+        }
 
-		return this.faceJoystick;
-	}
+        return this.fireJoystick;
+    }
 
-	#region desktop
+    #region desktop
 
-	public static void BuildDesktopControls ()
-	{
+    public static void BuildDesktopControls()
+    {
 
-	}
+    }
 
-	#endregion
+    #endregion
 }

@@ -11,7 +11,7 @@ namespace Helix.Components.Controls.UserInputControls
 
         public abstract Vector2 GetPlayerMovementDirection();
 
-        public abstract bool GetPlayerShouldFace();
+        public abstract Quaternion GetPlayerAimDirection();
 
         public abstract Quaternion GetPlayerFaceDirection();
 

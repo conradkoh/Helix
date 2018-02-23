@@ -4,17 +4,15 @@ using UnityEngine;
 
 namespace Helix.Components.Controls.Events
 {
-	public class FaceIntentSpecifiedArgs : System.EventArgs
-	{
-		public Quaternion direction { get; set; }
+    public class FaceIntentSpecifiedArgs : System.EventArgs
+    {
+        public Quaternion direction { get; set; }
 
-		public FaceIntentSpecifiedArgs (Quaternion direction)
-		{
-			this.direction = direction;
-			//To debug inputs and movement intent:
-			//Debug.Log ("Moving in direction: " + direction.ToString());
-		}
-	}
+        public FaceIntentSpecifiedArgs(Quaternion direction)
+        {
+            this.direction = direction;
+        }
+    }
 
-	public delegate void FaceIntentSpecified (object sender, FaceIntentSpecifiedArgs args);
+    public delegate void FaceIntentSpecified(object sender,FaceIntentSpecifiedArgs args);
 }

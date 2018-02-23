@@ -45,12 +45,9 @@ namespace Helix.Components.Controls.Controllers
         /// <param name="controls">Controls.</param>
         public void CheckPlayerFiring()
         {
-            if (this._controls.ShouldPlayerFire())
+            if (this._controls.ShouldPlayerFire() && this.Fire != null)
             {
-                if (this.Fire != null)
-                {
-                    this.Fire(this, null); 
-                }
+                this.Fire(this, new FireIntentSpecifiedArgs(this._controls.GetPlayerAimDirection())); 
             }
         }
 
@@ -58,27 +55,28 @@ namespace Helix.Components.Controls.Controllers
         {
             Vector2 direction = this._controls.GetPlayerMovementDirection();
 
-            //controls say move
-            if (this._controls.GetPlayerShouldMove() && this.Move != null)
+            if (this._controls.GetPlayerShouldMove() && !this._controls.ShouldPlayerFire() && this.Move != null)
             {                
                 this.Move(this, new MoveIntentSpecifiedArgs(direction));
-
-                if (this.Animate != null)
-                {
-                    this.Animate(this, new AnimateIntentSpecifiedArgs(AnimateState.Forward, this._controls.GetPlayerFaceDirection()));
-                }
+                this.Animate(this, new AnimateIntentSpecifiedArgs(AnimateState.Forward, this._controls.GetPlayerFaceDirection()));
             }
             else
             {
-                this.Animate(this, new AnimateIntentSpecifiedArgs(AnimateState.None, Quaternion.identity));
+                if (this.Animate != null)
+                {
+                    this.Animate(this, new AnimateIntentSpecifiedArgs(AnimateState.None, Quaternion.identity));
+                }
             }
         }
 
         public void CheckPlayerFacing()
         {
-            Quaternion direction = this._controls.GetPlayerFaceDirection();
-            if (this._controls.GetPlayerShouldFace() && this.Face != null)
+            if (this.Face != null)
             {
+                //Face the direction youre moving
+                Vector2 moveDirection = this._controls.GetPlayerMovementDirection();
+                float faceDirection = Mathf.Rad2Deg * Mathf.Atan2(moveDirection.x, moveDirection.y);
+                Quaternion direction = Quaternion.Euler(0, faceDirection, 0);
                 this.Face(this, new FaceIntentSpecifiedArgs(direction));    
             }			
         }

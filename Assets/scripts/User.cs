@@ -21,10 +21,16 @@ public class User : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        this.playerControlsController.CheckPlayerFiring();
+    {        
         this.playerControlsController.CheckPlayerMoving();    
         this.playerControlsController.CheckPlayerFacing();
         this.playerControlsController.Update();
     }
+
+    void LateUpdate()
+    {
+        //has to be late update because firing overrides facing
+        this.playerControlsController.CheckPlayerFiring();    
+    }
+
 }

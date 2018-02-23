@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
 
     public void Awake()
     {
-        this._operator = new Operator(new OperatorStats(this.health, 0, 0, 0, 10f));
+        this._operator = new Operator(new OperatorStats(this.health, 0, 0, 0, 50f));
     }
 
     public void Start()
@@ -46,6 +46,10 @@ public class Player : MonoBehaviour
     {
         Debug.Log("Player Firing!");
         Debug.Log(this._operator.GetSummary());
+
+        //face direction to fire
+        Face(this, new FaceIntentSpecifiedArgs(args.direction));
+
     }
 
     public void Move(object sender, MoveIntentSpecifiedArgs args)
@@ -55,12 +59,12 @@ public class Player : MonoBehaviour
 
     }
 
-
     public void Face(object sender, FaceIntentSpecifiedArgs args)
     {
         //Debug.Log(String.Format("Player Facing x: {0}", args.direction));
         transform.rotation = args.direction;
     }
+
 
     public void Animate(object sender, AnimateIntentSpecifiedArgs args)
     {
@@ -68,21 +72,27 @@ public class Player : MonoBehaviour
         {
             case AnimateState.None:
                 {
-                    anim.SetBool("isRunningForward", false);
+                    anim.SetInteger("isRunning", 0);
                     break;
                 }
             case AnimateState.Forward:
                 {
-                    anim.SetBool("isRunningForward", true);
+                    anim.SetInteger("isRunning", 1);    
                     break;
                 }
             case AnimateState.BackwardAndAttack:
                 {
-                    anim.SetBool("isRunningForward", false);
+                    anim.SetInteger("isRunning", -1);                    
                     break;
                 }
         }
     }
+
+    public void OnAnimatorMove()
+    {
+        
+    }
+
 
 
 }

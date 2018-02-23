@@ -6,9 +6,11 @@ namespace Helix.Components.Controls.Events
 {
     public class FireIntentSpecifiedArgs : System.EventArgs
     {
-        FireIntentSpecifiedArgs()
-        {
+        public Quaternion direction { get; set; }
 
+        public FireIntentSpecifiedArgs(Quaternion direction)
+        {
+            this.direction = direction;
         }
     }
 
