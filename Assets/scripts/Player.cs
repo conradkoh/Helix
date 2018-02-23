@@ -6,51 +6,83 @@ using Helix.Components.Operator;
 
 public class Player : MonoBehaviour
 {
-	UserInputController controller = UserInputController.GetInstance();
-	public float health = 0;
-	private Operator _operator;
+    UserInputController controller = UserInputController.GetInstance();
+    public float health = 0;
+    private Operator _operator;
 
-	public Player()
-	{
-	}
+    public Animator anim;
 
-	public void Awake()
-	{
-		this._operator = new Operator(new OperatorStats(this.health, 0, 0, 0, 10f));
-	}
+    public Player()
+    {
+    }
 
-	public void Start()
-	{
-		InitPlayer(); //ideally this should be called by subscribing to an event on GameEngine, but im putting it here first to get it out of the way
-	}
+    public void Awake()
+    {
+        this._operator = new Operator(new OperatorStats(this.health, 0, 0, 0, 10f));
+    }
+
+    public void Start()
+    {
+        InitPlayer(); //ideally this should be called by subscribing to an event on GameEngine, but im putting it here first to get it out of the way
+    }
 
 
 
-	public void InitPlayer()
-	{
-		controller.Fire += Fire;
-		controller.Move += Move;
-		controller.Face += Face;
-	}
+    public void InitPlayer()
+    {
+        controller.Fire += Fire;
+        controller.Move += Move;
+        controller.Face += Face;
+        controller.Animate += Animate;
 
-	public void Fire(object sender, FireIntentSpecifiedArgs args)
-	{
-		Debug.Log("Player Firing!");
-		Debug.Log(this._operator.GetSummary());
-	}
+        anim = GetComponent<Animator>();
+        if (anim == null)
+        {
+            Debug.Log("Animator not found on player");
+        }
+    }
 
-	public void Move(object sender, MoveIntentSpecifiedArgs args)
-	{
-		//Debug.Log(String.Format("Player Moving x: {0}, y: {1}", args.direction.x, args.direction.y));
-		transform.position = new Vector3(args.direction.x, 0, args.direction.y) * _operator.GetStats().movementSpeed / 1000 + transform.position;
-	}
+    public void Fire(object sender, FireIntentSpecifiedArgs args)
+    {
+        Debug.Log("Player Firing!");
+        Debug.Log(this._operator.GetSummary());
+    }
 
-	public void Face(object sender, FaceIntentSpecifiedArgs args)
-	{
-		//Debug.Log(String.Format("Player Facing x: {0}", args.direction));
+    public void Move(object sender, MoveIntentSpecifiedArgs args)
+    {
+        //Debug.Log(String.Format("Player Moving x: {0}, y: {1}", args.direction.x, args.direction.y));
+        transform.position = new Vector3(args.direction.x, 0, args.direction.y) * _operator.GetStats().movementSpeed / 1000 + transform.position;
 
-		transform.rotation = args.direction;
-	}
+    }
+
+
+    public void Face(object sender, FaceIntentSpecifiedArgs args)
+    {
+        //Debug.Log(String.Format("Player Facing x: {0}", args.direction));
+        transform.rotation = args.direction;
+    }
+
+    public void Animate(object sender, AnimateIntentSpecifiedArgs args)
+    {
+        switch (args.state)
+        {
+            case AnimateState.None:
+                {
+                    anim.SetBool("isRunningForward", false);
+                    break;
+                }
+            case AnimateState.Forward:
+                {
+                    anim.SetBool("isRunningForward", true);
+                    break;
+                }
+            case AnimateState.BackwardAndAttack:
+                {
+                    anim.SetBool("isRunningForward", false);
+                    break;
+                }
+        }
+    }
 
 
 }

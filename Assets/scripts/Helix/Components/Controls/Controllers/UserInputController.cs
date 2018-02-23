@@ -14,6 +14,7 @@ namespace Helix.Components.Controls.Controllers
         public event FireIntentSpecified Fire;
         public event MoveIntentSpecified Move;
         public event FaceIntentSpecified Face;
+        public event AnimateIntentSpecified Animate;
 
         private UserInputControls.UserInputControl _controls;
 
@@ -56,9 +57,20 @@ namespace Helix.Components.Controls.Controllers
         public void CheckPlayerMoving()
         {
             Vector2 direction = this._controls.GetPlayerMovementDirection();
+
+            //controls say move
             if (this._controls.GetPlayerShouldMove() && this.Move != null)
-            {
+            {                
                 this.Move(this, new MoveIntentSpecifiedArgs(direction));
+
+                if (this.Animate != null)
+                {
+                    this.Animate(this, new AnimateIntentSpecifiedArgs(AnimateState.Forward, this._controls.GetPlayerFaceDirection()));
+                }
+            }
+            else
+            {
+                this.Animate(this, new AnimateIntentSpecifiedArgs(AnimateState.None, Quaternion.identity));
             }
         }
 
