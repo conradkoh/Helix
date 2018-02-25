@@ -39,6 +39,17 @@ namespace Helix.Components.Controls.Controllers
             return UserInputController._instance;
         }
 
+        public void Initcontrols()
+        {
+            this._controls.InitControls();
+        }
+
+        public UserInputControl GetControls()
+        {
+            return this._controls;
+        }
+
+
         /// <summary>
         /// Checks if the player is firing given input controls
         /// </summary>
@@ -47,7 +58,13 @@ namespace Helix.Components.Controls.Controllers
         {
             if (this._controls.ShouldPlayerFire() && this.Fire != null)
             {
-                this.Fire(this, new FireIntentSpecifiedArgs(this._controls.GetPlayerAimDirection())); 
+                Quaternion direction = this._controls.GetPlayerAimDirection();
+                this.Fire(this, new FireIntentSpecifiedArgs(direction)); 
+                this.Animate(this, new AnimateIntentSpecifiedArgs(AnimateState.Attack, direction));
+            }
+            else
+            {
+                this.Animate(this, new AnimateIntentSpecifiedArgs(AnimateState.StopAttack, Quaternion.identity)); 
             }
         }
 
@@ -56,22 +73,22 @@ namespace Helix.Components.Controls.Controllers
             Vector2 direction = this._controls.GetPlayerMovementDirection();
 
             if (this._controls.GetPlayerShouldMove() && !this._controls.ShouldPlayerFire() && this.Move != null)
-            {                
+            {   
                 this.Move(this, new MoveIntentSpecifiedArgs(direction));
-                this.Animate(this, new AnimateIntentSpecifiedArgs(AnimateState.Forward, this._controls.GetPlayerFaceDirection()));
+                this.Animate(this, new AnimateIntentSpecifiedArgs(AnimateState.Run, this._controls.GetPlayerFaceDirection()));
             }
             else
             {
                 if (this.Animate != null)
                 {
-                    this.Animate(this, new AnimateIntentSpecifiedArgs(AnimateState.None, Quaternion.identity));
+                    this.Animate(this, new AnimateIntentSpecifiedArgs(AnimateState.StopRun, Quaternion.identity));
                 }
             }
         }
 
         public void CheckPlayerFacing()
         {
-            if (this.Face != null)
+            if (this.Face != null && this._controls.GetPlayerShouldMove())
             {
                 //Face the direction youre moving
                 Vector2 moveDirection = this._controls.GetPlayerMovementDirection();

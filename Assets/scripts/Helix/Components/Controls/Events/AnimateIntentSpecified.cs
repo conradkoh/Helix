@@ -21,8 +21,10 @@ namespace Helix.Components.Controls.Events
 
     public enum AnimateState
     {
-        Forward,
-        BackwardAndAttack,
+        Run,
+        StopRun,
+        Attack,
+        StopAttack,
         None
     }
 }

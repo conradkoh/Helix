@@ -24,13 +24,9 @@ public class User : MonoBehaviour
     {        
         this.playerControlsController.CheckPlayerMoving();    
         this.playerControlsController.CheckPlayerFacing();
+        this.playerControlsController.CheckPlayerFiring();   //called last, because when firing override moving
         this.playerControlsController.Update();
     }
 
-    void LateUpdate()
-    {
-        //has to be late update because firing overrides facing
-        this.playerControlsController.CheckPlayerFiring();    
-    }
 
 }

@@ -12,6 +12,8 @@ public class Player : MonoBehaviour
 
     public Animator anim;
 
+    private bool attackAnimCommited;
+
     public Player()
     {
     }
@@ -43,8 +45,7 @@ public class Player : MonoBehaviour
     }
 
     public void Fire(object sender, FireIntentSpecifiedArgs args)
-    {
-        Debug.Log("Player Firing!");
+    {        
         Debug.Log(this._operator.GetSummary());
 
         //face direction to fire
@@ -62,37 +63,60 @@ public class Player : MonoBehaviour
     public void Face(object sender, FaceIntentSpecifiedArgs args)
     {
         //Debug.Log(String.Format("Player Facing x: {0}", args.direction));
-        transform.rotation = args.direction;
+
+        if (!attackAnimCommited)
+        {            
+            transform.rotation = args.direction;   
+        }
     }
 
 
     public void Animate(object sender, AnimateIntentSpecifiedArgs args)
     {
+
         switch (args.state)
         {
             case AnimateState.None:
                 {
                     anim.SetInteger("isRunning", 0);
+                    anim.SetBool("isAttackingMelee", false);                      
                     break;
                 }
-            case AnimateState.Forward:
+            case AnimateState.Run:
+                {                    
+                    anim.SetInteger("isRunning", 1);   
+                    break;
+                }
+            case AnimateState.StopRun:
+                {                    
+                    anim.SetInteger("isRunning", 0);   
+                    break;
+                }
+            case AnimateState.Attack:
                 {
-                    anim.SetInteger("isRunning", 1);    
+                    anim.SetBool("isAttackingMelee", true);
                     break;
                 }
-            case AnimateState.BackwardAndAttack:
+            case AnimateState.StopAttack:
                 {
-                    anim.SetInteger("isRunning", -1);                    
+                    anim.SetBool("isAttackingMelee", false);
+                    attackAnimCommited = false;
                     break;
                 }
-        }
+
+        }                
     }
 
-    public void OnAnimatorMove()
+    public void HitAnimEvent()
     {
-        
+        Debug.Log("Hit Animation Event");
     }
 
+    public void CommitAttackAnimEvent()
+    {
+        //disable rotation   
+        attackAnimCommited = true;
+    }
 
 
 }

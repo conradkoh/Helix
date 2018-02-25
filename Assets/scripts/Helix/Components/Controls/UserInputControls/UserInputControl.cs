@@ -16,6 +16,10 @@ namespace Helix.Components.Controls.UserInputControls
         public abstract Quaternion GetPlayerFaceDirection();
 
         public abstract void Update();
-     
+
+        public abstract void InitControls();
+
+        public abstract void RequestBuildUI();
+
     }
 }

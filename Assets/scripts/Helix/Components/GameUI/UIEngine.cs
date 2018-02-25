@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Helix.Components.Controls.Controllers;
 
 public class UIEngine : MonoBehaviour
 {
@@ -15,6 +16,11 @@ public class UIEngine : MonoBehaviour
     //singleton
     private static UIEngine _instance;
 
+    UIEngine()
+    {
+
+    }
+
     void Awake()
     { 
         if (_instance == null)
@@ -22,7 +28,8 @@ public class UIEngine : MonoBehaviour
             _instance = this;
         }
 
-        Main.ShouldInitUI += InitUI;
+        //Event subscriptions
+        UIEngine.ShouldBuildUI += UserInputController.GetInstance().GetControls().RequestBuildUI;
     }
 
     public static UIEngine GetInstance()

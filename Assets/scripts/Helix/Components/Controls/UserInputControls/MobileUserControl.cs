@@ -11,11 +11,9 @@ namespace Helix.Components.Controls.UserInputControls
         public MobileUserControl()
         {
             //event subscriptions
-            Main.ShouldInitControls += InitControls;
-            UIEngine.ShouldBuildUI += RequestBuildMobileUI;
         }
 
-        public void InitControls()
+        public override void InitControls()
         {
             this.moveJoystick = UIEngine.GetInstance().GetMoveJoystick();
             this.fireJoystick = UIEngine.GetInstance().GetFireJoystick();
@@ -100,7 +98,7 @@ namespace Helix.Components.Controls.UserInputControls
 
         }
 
-        public void RequestBuildMobileUI()
+        public override void RequestBuildUI()
         {
             UIEngine.BuildMobileControls();
         }

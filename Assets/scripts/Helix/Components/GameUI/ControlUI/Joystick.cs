@@ -11,7 +11,7 @@ public class Joystick : EventTrigger
     public Sprite outer_sprite;
     public float inner_radius = 50f;
     public float outer_radius = 100f;
-
+    public float activateDamping = 0.3f;
     public GameObject inner;
 
     public float outputAngle = 0;
@@ -70,8 +70,7 @@ public class Joystick : EventTrigger
     }
 
     public override void OnDrag(PointerEventData touch)
-    {
-        isActive = true;
+    {        
 
         Vector2 joystickCenter = transform.position;
         float maxDistance = (outer_radius - inner_radius);
@@ -107,6 +106,12 @@ public class Joystick : EventTrigger
         else
         {
             y = 0;
+        }
+            
+        if (finalVector.magnitude > activateDamping * outer_radius)
+        {
+            Debug.Log("ACTIVE");
+            isActive = true;
         }
 
         //set 8 point output variables

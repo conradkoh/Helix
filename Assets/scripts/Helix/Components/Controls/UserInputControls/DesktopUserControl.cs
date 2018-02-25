@@ -11,8 +11,12 @@ namespace Helix.Components.Controls.UserInputControls
 
         public DesktopUserControl()
         {
-            //event subscriptions
-            UIEngine.ShouldBuildUI += RequestBuildMobileUI;
+            
+        }
+
+        public override void InitControls()
+        {
+            
         }
 
         public override bool ShouldPlayerFire()
@@ -92,7 +96,7 @@ namespace Helix.Components.Controls.UserInputControls
             }
         }
 
-        public void RequestBuildMobileUI()
+        public override void RequestBuildUI()
         {
             UIEngine.BuildDesktopControls();
         }

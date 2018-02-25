@@ -6,8 +6,8 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - inner_sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  - outer_sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  - inner_sprite: {fileID: 21300000, guid: ef35b5b8976fc44c99f3e3d2ba1221a9, type: 3}
+  - outer_sprite: {fileID: 21300000, guid: 3c921ad1a417042f19a2d0010bf10db2, type: 3}
   - inner: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
