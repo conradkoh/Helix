@@ -9,6 +9,7 @@ namespace Helix.Components.Operator
         public float health = 0;
         public float armor = 0;
         public float attack = 0;
+        public float attackRange = 1;
         public float armorPenetration = 0;
         public float movementSpeed = 0;
 
@@ -71,6 +72,11 @@ namespace Helix.Components.Operator
         public float GetAttack()
         {
             return this.attack;
+        }
+
+        public float GetAttackRange()
+        {
+            return this.attackRange;
         }
 
         public float GetArmorPenetration()
