@@ -1,15 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Helix.Components.Controls.Controllers;
 using Helix.Components.Controls.Events;
 using Helix.Components.Operator;
+using Helix.Components.Skills;
 
 public class Player : MonoBehaviour
 {
     UserInputController controller = UserInputController.GetInstance();
     public float health = 0;
     private Operator _operator;
-
+    private SkillSet _skillSet;
     public Animator anim;
 
     private bool attackAnimCommited;
@@ -21,6 +23,10 @@ public class Player : MonoBehaviour
     public void Awake()
     {
         this._operator = new Operator(new OperatorStats(this.health, 0, 0, 0, 50f));
+        this._skillSet = new SkillSet();
+        var skill = new BasicSkill1(1, 1);
+        _skillSet.Add(skill);
+        _skillSet.BindPrimary(skill.GetIdentifier()); //Temporary hard code of skills for testing
     }
 
     public void Start()
@@ -47,7 +53,7 @@ public class Player : MonoBehaviour
     public void Fire(object sender, FireIntentSpecifiedArgs args)
     {        
         Debug.Log(this._operator.GetSummary());
-
+        this._skillSet.UsePrimary();
         //face direction to fire
         Face(this, new FaceIntentSpecifiedArgs(args.direction));
 
