@@ -87,12 +87,23 @@ namespace Helix.Components.Controls.UserInputControls
             {
                 isFiring = true;
                 firingInitialDirection = Input.mousePosition;
+
+
+                //spawn reference point
+                UIEngine.SpawnTether();
+            }
+
+            if (Input.GetMouseButton(0) && isFiring)
+            {
+                UIEngine.UpdateTether(firingInitialDirection, Input.mousePosition);
             }
 
             if (Input.GetMouseButtonUp(0) && isFiring) //end face control
             {
                 isFiring = false;
                 firingInitialDirection = Vector2.zero;
+
+                UIEngine.HideTether();
             }
         }
 

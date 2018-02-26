@@ -12,7 +12,9 @@ public class UIEngine : MonoBehaviour
     //UI Object references
     public GameObject moveJoystick;
     public GameObject fireJoystick;
-
+    public GameObject tetherStart;
+    public GameObject tetherEnd;
+    public GameObject tether;
     //singleton
     private static UIEngine _instance;
 
@@ -93,6 +95,34 @@ public class UIEngine : MonoBehaviour
     public static void BuildDesktopControls()
     {
 
+    }
+
+    public static void SpawnTether()
+    {
+        UIEngine.GetInstance().tetherStart.SetActive(true);
+        UIEngine.GetInstance().tether.SetActive(true);
+        UIEngine.GetInstance().tetherEnd.SetActive(true);
+    }
+
+    public static void HideTether()
+    {
+        UIEngine.GetInstance().tetherStart.SetActive(false);
+        UIEngine.GetInstance().tether.SetActive(false);
+        UIEngine.GetInstance().tetherEnd.SetActive(false);
+    }
+
+    public static void UpdateTether(Vector2 startPos, Vector2 currentPos)
+    {   
+        float x = startPos.x - (startPos.x - currentPos.x) / 2;
+        float y = startPos.y - (startPos.y - currentPos.y) / 2;
+        Vector2 finalVector = startPos - currentPos;
+
+        UIEngine.GetInstance().tetherStart.GetComponent<RectTransform>().position = startPos;
+        UIEngine.GetInstance().tetherEnd.GetComponent<RectTransform>().position = currentPos;
+        RectTransform tetherRT = UIEngine.GetInstance().tether.GetComponent<RectTransform>();
+        tetherRT.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, Vector2.Distance(startPos, currentPos));
+        tetherRT.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 10);
+        tetherRT.SetPositionAndRotation(new Vector3(x, y, 0), Quaternion.Euler(0, 0, Mathf.Rad2Deg * Mathf.Atan2(finalVector.y, finalVector.x)));
     }
 
     #endregion
