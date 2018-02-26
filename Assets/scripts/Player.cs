@@ -118,5 +118,10 @@ public class Player : MonoBehaviour
         attackAnimCommited = true;
     }
 
+    public void AttackCompleteAnimEvent()
+    {
+        attackAnimCommited = false;
+    }
+
 
 }
