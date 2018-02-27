@@ -79,15 +79,12 @@ public class HealthBar : MonoBehaviour
     private void UpdatePosition()
     {
         RectTransform maxRt = maxHpBar.GetComponent<RectTransform>();
-        RectTransform minRt = curHpBar.GetComponent<RectTransform>();
-
         maxRt.position = Camera.main.WorldToScreenPoint(transform.position) + new Vector3(0, vertOffset, 0);
 
     }
 
     public void SetHealth(float healthPercentage)
-    {
-        RectTransform maxRt = maxHpBar.GetComponent<RectTransform>();
+    {        
         RectTransform minRt = curHpBar.GetComponent<RectTransform>();
 
         float currentWidth = barWidth * Mathf.Clamp(healthPercentage, 0, 1);

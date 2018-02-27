@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
+using UnityEngine;
 
 namespace Helix.Components.Skills
 {
@@ -18,6 +20,18 @@ namespace Helix.Components.Skills
             this._skills = skills;
         }
 
+        public Skill AddSkillWithIdentifier(string identifier)
+        {
+            Skill skill = SkillWithIdentifier(identifier);         
+
+            if (skill != null)
+            {
+                this._skills.Add(skill);
+            }
+
+            return skill;
+        }
+
         public void Add(Skill skill)
         {
             this._skills.Add(skill);
@@ -29,25 +43,13 @@ namespace Helix.Components.Skills
         }
 
         public void BindPrimary(string identifier)
-        {
-            foreach (Skill skill in this._skills)
-            {
-                if (skill.GetIdentifier() == identifier)
-                {
-                    this._primarySkill = skill;
-                }
-            }
+        {            
+            this._primarySkill = SkillInSetWithIdentifier(identifier);
         }
 
         public void BindSecondary(string identifier)
         {
-            foreach (Skill skill in this._skills)
-            {
-                if (skill.GetIdentifier() == identifier)
-                {
-                    this._secondarySkill = skill;
-                }
-            }
+            this._secondarySkill = SkillInSetWithIdentifier(identifier);     
         }
 
         public void UsePrimary()
@@ -64,6 +66,23 @@ namespace Helix.Components.Skills
             {
                 this._secondarySkill.Fire();
             }
+        }
+
+        public Skill SkillInSetWithIdentifier(string identifier)
+        {
+            Skill skill = _skills.Find(x => x.GetIdentifier() == identifier);
+
+            if (skill == null)
+            {
+                Debug.Log("Skill not in set: " + identifier);
+            }
+
+            return skill;
+        }
+
+        public Skill SkillWithIdentifier(string identifier)
+        {
+            return SkillFactory.GetSkillWithIdentifier(identifier);
         }
     }
 }

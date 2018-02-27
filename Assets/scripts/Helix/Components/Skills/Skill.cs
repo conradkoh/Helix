@@ -14,16 +14,20 @@ namespace Helix.Components.Skills
 
         public void Fire()
         {
-            Debug.Log(string.Format("Firing skill with identifier {0}", this._identifier));
+            //Debug.Log(string.Format("Firing skill with identifier {0}", this._identifier));
             if (this.SkillFired != null)
             {
                 this.SkillFired(this, new SkillFiredArgs());   
             }
+                
+            Execute();
         }
 
         public string GetIdentifier()
         {
             return this._identifier;
         }
+
+        public abstract void Execute();
     }
 }

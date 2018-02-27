@@ -10,6 +10,12 @@ namespace Helix.Components.Skills
         {
             this._identifier = "bs1";
         }
+
+
+        public override void Implementation()
+        {
+
+        }
     }
 }
 

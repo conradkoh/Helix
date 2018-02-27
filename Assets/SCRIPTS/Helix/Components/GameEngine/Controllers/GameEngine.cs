@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Helix.Components.Controls.Controllers;
+using Helix.Components.GameEngine.Enemy.Spawn;
 
 namespace Helix.Components.GameEngine
 {
@@ -10,9 +11,11 @@ namespace Helix.Components.GameEngine
         private User _user;
         private static GameEngine _instance;
         private GameObject player;
-
-
         public float cameraHeight = 9;
+
+        public int wave = 0;
+        public List<GameObject> spawnNodes = new List<GameObject>();
+
 
         void Awake()
         {
@@ -47,5 +50,12 @@ namespace Helix.Components.GameEngine
             float offset = Mathf.Tan(Mathf.Deg2Rad * angle) * cameraHeight;
             Camera.main.transform.position = new Vector3(playerPosition.x, cameraHeight, playerPosition.z - offset);
         }
+
+        private GameObject[] GetSpawnNodes()
+        {
+            return GameObject.FindGameObjectsWithTag("SpawnNode");
+        }
+
+
     }
 }

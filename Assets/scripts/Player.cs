@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     private SkillSet _skillSet;
     public Animator anim;
 
-    private bool attackAnimCommited;
+    public string committedSkillIdentifier = "";
 
     public Player()
     {
@@ -24,16 +24,14 @@ public class Player : MonoBehaviour
     {
         this._operator = new Operator(new OperatorStats(this.health, 0, 0, 0, 50f));
         this._skillSet = new SkillSet();
-        var skill = new BasicSkill1(1, 1);
-        _skillSet.Add(skill);
-        _skillSet.BindPrimary(skill.GetIdentifier()); //Temporary hard code of skills for testing
+        this._skillSet.AddSkillWithIdentifier("MeleeBasicSkill");
+        _skillSet.BindPrimary("MeleeBasicSkill"); //Temporary hard code of skills for testing
     }
 
     public void Start()
     {
         InitPlayer(); //ideally this should be called by subscribing to an event on GameEngine, but im putting it here first to get it out of the way
     }
-
 
 
     public void InitPlayer()
@@ -53,10 +51,11 @@ public class Player : MonoBehaviour
     public void Fire(object sender, FireIntentSpecifiedArgs args)
     {        
         Debug.Log(this._operator.GetSummary());
-        this._skillSet.UsePrimary();
+
         //face direction to fire
         Face(this, new FaceIntentSpecifiedArgs(args.direction));
 
+        this._skillSet.UsePrimary();
     }
 
     public void Move(object sender, MoveIntentSpecifiedArgs args)
@@ -70,7 +69,7 @@ public class Player : MonoBehaviour
     {
         //Debug.Log(String.Format("Player Facing x: {0}", args.direction));
 
-        if (!attackAnimCommited)
+        if (committedSkillIdentifier == "")
         {            
             transform.rotation = args.direction;   
         }
@@ -106,11 +105,27 @@ public class Player : MonoBehaviour
             case AnimateState.StopAttack:
                 {
                     anim.SetBool("isAttackingMelee", false);
-                    attackAnimCommited = false;
+                    this.SkillAnimCommitEnd();
                     break;
                 }
 
         }                
+    }
+
+    public void SkillAnimCommit(string skillIdentifier)
+    {
+        this.committedSkillIdentifier = skillIdentifier;
+    }
+
+    public void SkillAnimCommitEnd()
+    {
+        this.committedSkillIdentifier = "";
+    }
+
+    //this is where skill is actually executed
+    public void SkillAnimMainExecute()
+    {
+        
     }
 
     public void HitAnimEvent()
@@ -118,16 +133,6 @@ public class Player : MonoBehaviour
         Debug.Log("Hit Animation Event");
     }
 
-    public void CommitAttackAnimEvent()
-    {
-        //disable rotation   
-        attackAnimCommited = true;
-    }
-
-    public void AttackCompleteAnimEvent()
-    {
-        attackAnimCommited = false;
-    }
 
 
 }
