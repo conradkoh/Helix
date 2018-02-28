@@ -5,6 +5,7 @@ using Helix.Components.Controls.Controllers;
 using Helix.Components.Controls.Events;
 using Helix.Components.Operator;
 using Helix.Components.Skills;
+using Helix.Components.Skills.Events;
 
 public class Player : MonoBehaviour
 {
@@ -24,7 +25,8 @@ public class Player : MonoBehaviour
     {
         this._operator = new Operator(new OperatorStats(this.health, 0, 0, 0, 50f));
         this._skillSet = new SkillSet();
-        this._skillSet.AddSkillWithIdentifier("MeleeBasicSkill");
+        var skill = this._skillSet.AddSkillWithIdentifier("MeleeBasicSkill");
+        skill.SkillFired += this.SkillFired;
         _skillSet.BindPrimary("MeleeBasicSkill"); //Temporary hard code of skills for testing
     }
 
@@ -50,12 +52,14 @@ public class Player : MonoBehaviour
 
     public void Fire(object sender, FireIntentSpecifiedArgs args)
     {        
-        Debug.Log(this._operator.GetSummary());
-
         //face direction to fire
         Face(this, new FaceIntentSpecifiedArgs(args.direction));
-
         this._skillSet.UsePrimary();
+    }
+
+    public void SkillFired(object sender, SkillFiredArgs args)
+    {
+        anim.SetBool("isAttackingMelee", true);
     }
 
     public void Move(object sender, MoveIntentSpecifiedArgs args)
@@ -99,13 +103,12 @@ public class Player : MonoBehaviour
                 }
             case AnimateState.Attack:
                 {
-                    anim.SetBool("isAttackingMelee", true);
+                    //anim.SetBool("isAttackingMelee", true);
                     break;
                 }
             case AnimateState.StopAttack:
                 {
                     anim.SetBool("isAttackingMelee", false);
-                    this.SkillAnimCommitEnd();
                     break;
                 }
 
@@ -119,13 +122,16 @@ public class Player : MonoBehaviour
 
     public void SkillAnimCommitEnd()
     {
+        //anim.SetBool("isAttackingMelee", false);
+        Animate(this, new AnimateIntentSpecifiedArgs(AnimateState.StopAttack, Quaternion.identity));
         this.committedSkillIdentifier = "";
     }
 
     //this is where skill is actually executed
     public void SkillAnimMainExecute()
     {
-        
+        Debug.Log(this._operator.GetSummary());
+        this._skillSet.UsePrimary();
     }
 
     public void HitAnimEvent()

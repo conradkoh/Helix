@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Helix.Components.Skills.Events;
@@ -11,16 +12,24 @@ namespace Helix.Components.Skills
         public event SkillFired SkillFired;
 
         protected string _identifier;
+        //default cooldown in seconds
+        protected float _cooldown = 2.0f;
+
+        protected DateTime _lastCasted = DateTime.Now;
 
         public void Fire()
         {
-            //Debug.Log(string.Format("Firing skill with identifier {0}", this._identifier));
-            if (this.SkillFired != null)
+            DateTime currentTime = DateTime.Now;
+            if (currentTime > _lastCasted.AddSeconds(_cooldown))
             {
-                this.SkillFired(this, new SkillFiredArgs());   
+                //Debug.Log(string.Format("Firing skill with identifier {0}", this._identifier));
+                if (this.SkillFired != null)
+                {
+                    this.SkillFired(this, new SkillFiredArgs());   
+                }
+                Execute();
+                this._lastCasted = DateTime.Now;
             }
-                
-            Execute();
         }
 
         public string GetIdentifier()
