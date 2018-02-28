@@ -39,4 +39,13 @@ namespace Helix.Components.Skills
 
         public abstract void Execute();
     }
+
+    public enum SkillType
+    {
+        primary,
+        moveSkillPrimary,
+        moveSkillSecondary,
+        attackSkillPrimary,
+        attackSkillSecondary
+    }
 }

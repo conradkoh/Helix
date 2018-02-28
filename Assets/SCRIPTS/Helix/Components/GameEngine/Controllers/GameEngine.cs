@@ -35,6 +35,9 @@ namespace Helix.Components.GameEngine
         void Update()
         {
             CameraFollow();
+
+            //pass on update
+            UserInputController.GetInstance().Update();
         }
 
         public static GameEngine GetInstance()

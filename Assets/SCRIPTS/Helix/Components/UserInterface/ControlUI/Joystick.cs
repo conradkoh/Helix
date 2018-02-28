@@ -14,8 +14,8 @@ public class Joystick : EventTrigger
     public float activateDamping = 0.3f;
     public GameObject inner;
 
-    public float outputAngle = 0;
-    public Vector2 eightPointOutput = Vector2.zero;
+    private float outputAngle = 0;
+    private Vector2 eightPointOutput = Vector2.zero;
 
     public bool isActive = false;
 
@@ -131,6 +131,16 @@ public class Joystick : EventTrigger
     public override void OnInitializePotentialDrag(PointerEventData touch)
     {
         this.OnDrag(touch);
+    }
+
+    public float GetOutputAngle()
+    {
+        return this.outputAngle;
+    }
+
+    public Vector2 GetEightPointOutput()
+    {
+        return this.eightPointOutput;
     }
 		
 }

@@ -17,6 +17,10 @@ public class Player : MonoBehaviour
 
     public string committedSkillIdentifier = "";
 
+    public bool isToldToFire = false;
+    public bool isToldToMove = false;
+
+
     public Player()
     {
     }
@@ -41,13 +45,37 @@ public class Player : MonoBehaviour
         controller.Fire += Fire;
         controller.Move += Move;
         controller.Face += Face;
-        controller.Animate += Animate;
+        controller.Cast += Cast;
+        controller.MoveEnd += MoveEnd;
+        controller.CastEnd += CastEnd;
 
         anim = GetComponent<Animator>();
         if (anim == null)
         {
             Debug.Log("Animator not found on player");
         }
+    }
+
+    public void Cast(object sender, CastIntentSpecifiedArgs args)
+    {
+        Debug.Log("casting");
+        isToldToFire = true;
+        Face(this, new FaceIntentSpecifiedArgs(args.direction));
+        this._skillSet.UsePrimary();
+    }
+
+    public void CastEnd(object sender, CastIntentSpecifiedArgs args)
+    {
+        isToldToFire = false;
+        if (committedSkillIdentifier != "")
+        {
+            Animate(AnimateState.StopAttack);   
+        }
+    }
+
+    public void SkillFired(object sender, SkillFiredArgs args)
+    {
+        anim.SetBool("isAttackingMelee", true);
     }
 
     public void Fire(object sender, FireIntentSpecifiedArgs args)
@@ -57,33 +85,53 @@ public class Player : MonoBehaviour
         this._skillSet.UsePrimary();
     }
 
-    public void SkillFired(object sender, SkillFiredArgs args)
-    {
-        anim.SetBool("isAttackingMelee", true);
-    }
+
 
     public void Move(object sender, MoveIntentSpecifiedArgs args)
     {
-        //Debug.Log(String.Format("Player Moving x: {0}, y: {1}", args.direction.x, args.direction.y));
-        transform.position = new Vector3(args.direction.x, 0, args.direction.y) * _operator.GetStats().movementSpeed / 1000 + transform.position;
+        isToldToMove = true;
 
+
+        if (committedSkillIdentifier == "")
+        {
+            transform.position = new Vector3(args.direction.x, 0, args.direction.y).normalized * _operator.GetStats().movementSpeed / 1000 + transform.position;
+
+            float faceAngle = Mathf.Rad2Deg * Mathf.Atan2(args.direction.x, args.direction.y);
+            Face(this, new FaceIntentSpecifiedArgs(Quaternion.Euler(0, faceAngle, 0)));
+
+            Animate(AnimateState.Run);
+        }
     }
+
+    public void MoveEnd(object sender, MoveIntentSpecifiedArgs args)
+    {
+        isToldToMove = false;
+
+        Animate(AnimateState.StopRun);
+    }
+
 
     public void Face(object sender, FaceIntentSpecifiedArgs args)
     {
         //Debug.Log(String.Format("Player Facing x: {0}", args.direction));
 
-        if (committedSkillIdentifier == "")
+        if (committedSkillIdentifier == "" && !isToldToFire)
         {            
             transform.rotation = args.direction;   
+        }
+
+        if (committedSkillIdentifier != "" && isToldToFire)
+        {
+            transform.rotation = args.direction;   
+
         }
     }
 
 
-    public void Animate(object sender, AnimateIntentSpecifiedArgs args)
+    public void Animate(AnimateState state)
     {
 
-        switch (args.state)
+        switch (state)
         {
             case AnimateState.None:
                 {
@@ -123,7 +171,7 @@ public class Player : MonoBehaviour
     public void SkillAnimCommitEnd()
     {
         //anim.SetBool("isAttackingMelee", false);
-        Animate(this, new AnimateIntentSpecifiedArgs(AnimateState.StopAttack, Quaternion.identity));
+        Animate(AnimateState.StopAttack);
         this.committedSkillIdentifier = "";
     }
 
@@ -133,12 +181,4 @@ public class Player : MonoBehaviour
         Debug.Log(this._operator.GetSummary());
         this._skillSet.UsePrimary();
     }
-
-    public void HitAnimEvent()
-    {
-        Debug.Log("Hit Animation Event");
-    }
-
-
-
 }

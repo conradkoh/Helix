@@ -22,10 +22,7 @@ public class User : MonoBehaviour
     // Update is called once per frame
     void Update()
     {        
-        this.playerControlsController.CheckPlayerMoving();    
-        this.playerControlsController.CheckPlayerFacing();
-        this.playerControlsController.CheckPlayerFiring();   //called last, because when firing override moving
-        this.playerControlsController.Update();
+
     }
 
 
