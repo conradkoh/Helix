@@ -9,7 +9,7 @@ namespace Helix.Components.Skills
     public abstract class Skill
     {
         
-        public event SkillFired SkillFired;
+        public event SkillFired SkillBegun;
 
         protected string _identifier;
         //default cooldown in seconds
@@ -17,18 +17,16 @@ namespace Helix.Components.Skills
 
         protected DateTime _lastCasted = DateTime.Now;
 
-        public void Fire()
+        public void Begin() //checks cooldown here
         {
             DateTime currentTime = DateTime.Now;
             if (currentTime > _lastCasted.AddSeconds(_cooldown))
             {
                 //Debug.Log(string.Format("Firing skill with identifier {0}", this._identifier));
-                if (this.SkillFired != null)
+                if (this.SkillBegun != null)
                 {
-                    this.SkillFired(this, new SkillFiredArgs());   
+                    this.SkillBegun(this, new SkillFiredArgs());   
                 }
-                Execute();
-                this._lastCasted = DateTime.Now;
             }
         }
 
@@ -37,7 +35,10 @@ namespace Helix.Components.Skills
             return this._identifier;
         }
 
-        public abstract void Execute();
+        public virtual void Execute() //override must use base.Execute(),because this sets cooldown to begin
+        {            
+            _lastCasted = DateTime.Now;
+        }
     }
 
     public enum SkillType

@@ -14,6 +14,7 @@ namespace Helix.Components.Skills
         public override void Implementation()
         {
             Debug.Log("Melee implementation called"); 
+            this._lastCasted = DateTime.Now;
         }
     }
 }

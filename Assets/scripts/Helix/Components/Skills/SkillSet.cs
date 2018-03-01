@@ -10,6 +10,7 @@ namespace Helix.Components.Skills
         private List<Skill> _skills = new List<Skill>();
         private Skill _primarySkill;
         private Skill _secondarySkill;
+        private Skill current;
 
         public SkillSet()
         {
@@ -52,21 +53,68 @@ namespace Helix.Components.Skills
             this._secondarySkill = SkillInSetWithIdentifier(identifier);     
         }
 
-        public void UsePrimary()
+        public void BeginPrimary()
         {
             if (this._primarySkill != null)
             {
-                this._primarySkill.Fire();
+                this._primarySkill.Begin(); //checks cooldown, calls event to begin animation
             }
         }
 
-        public void UseSecondary()
+        public void ExecutePrimary()
+        {
+            if (this._primarySkill != null)
+            {
+                this._primarySkill.Execute();
+            }
+        }
+
+        public void BeginSecondary()
         {
             if (this._secondarySkill != null)
             {
-                this._secondarySkill.Fire();
+                this._secondarySkill.Begin();
             }
         }
+
+        public void ExecuteSecondary()
+        {
+            if (this._secondarySkill != null)
+            {
+                this._secondarySkill.Execute();
+            }
+        }
+
+
+        public bool HasCurrent()
+        {
+            return current != null;    
+        }
+
+        public Skill GetCurrent()
+        {
+            return current;
+        }
+
+        public void SetCurrent(Skill skill)
+        {
+            this.current = skill;
+        }
+
+        public Skill ExecuteCurrent()
+        {
+            this.current.Execute();
+
+            return current;
+        }
+
+        public void CancelCurrent()
+        {
+            this.current = null;
+        }
+
+
+
 
         public Skill SkillInSetWithIdentifier(string identifier)
         {

@@ -27,11 +27,7 @@ public class Player : MonoBehaviour
 
     public void Awake()
     {
-        this._operator = new Operator(new OperatorStats(this.health, 0, 0, 0, 50f));
-        this._skillSet = new SkillSet();
-        var skill = this._skillSet.AddSkillWithIdentifier("MeleeBasicSkill");
-        skill.SkillFired += this.SkillFired;
-        _skillSet.BindPrimary("MeleeBasicSkill"); //Temporary hard code of skills for testing
+
     }
 
     public void Start()
@@ -42,12 +38,24 @@ public class Player : MonoBehaviour
 
     public void InitPlayer()
     {
-        controller.Fire += Fire;
+
+        this._operator = new Operator(new OperatorStats(this.health, 0, 0, 0, 50f));
+
+        //control event subscriptions
+        //controller.Fire += Fire;
         controller.Move += Move;
         controller.Face += Face;
         controller.Cast += Cast;
         controller.MoveEnd += MoveEnd;
         controller.CastEnd += CastEnd;
+
+        //skill initialization
+        this._skillSet = new SkillSet();
+
+        var skill = this._skillSet.AddSkillWithIdentifier("MeleeBasicSkill");
+        skill.SkillBegun += this.SkillBegun;
+        _skillSet.BindPrimary("MeleeBasicSkill"); //Temporary hard code of skills for testing
+
 
         anim = GetComponent<Animator>();
         if (anim == null)
@@ -61,7 +69,7 @@ public class Player : MonoBehaviour
         Debug.Log("casting");
         isToldToFire = true;
         Face(this, new FaceIntentSpecifiedArgs(args.direction));
-        this._skillSet.UsePrimary();
+        this._skillSet.BeginPrimary();
     }
 
     public void CastEnd(object sender, CastIntentSpecifiedArgs args)
@@ -72,34 +80,44 @@ public class Player : MonoBehaviour
             Animate(AnimateState.StopAttack);   
         }
     }
-
-    public void SkillFired(object sender, SkillFiredArgs args)
-    {
-        anim.SetBool("isAttackingMelee", true);
-    }
-
-    public void Fire(object sender, FireIntentSpecifiedArgs args)
-    {        
-        //face direction to fire
-        Face(this, new FaceIntentSpecifiedArgs(args.direction));
-        this._skillSet.UsePrimary();
-    }
-
+    //
+    //
+    //    public void Fire(object sender, FireIntentSpecifiedArgs args)
+    //    {
+    //        //face direction to fire
+    //        Face(this, new FaceIntentSpecifiedArgs(args.direction));
+    //        this._skillSet.UsePrimary();
+    //    }
+    //
 
 
     public void Move(object sender, MoveIntentSpecifiedArgs args)
     {
         isToldToMove = true;
 
-
         if (committedSkillIdentifier == "")
         {
-            transform.position = new Vector3(args.direction.x, 0, args.direction.y).normalized * _operator.GetStats().movementSpeed / 1000 + transform.position;
+            if (isToldToFire)
+            {
+                Animate(AnimateState.StopRun);
+            }
+            else
+            {
+                transform.position = new Vector3(args.direction.x, 0, args.direction.y).normalized * _operator.GetStats().movementSpeed / 1000 + transform.position;
 
-            float faceAngle = Mathf.Rad2Deg * Mathf.Atan2(args.direction.x, args.direction.y);
-            Face(this, new FaceIntentSpecifiedArgs(Quaternion.Euler(0, faceAngle, 0)));
+                float faceAngle = Mathf.Rad2Deg * Mathf.Atan2(args.direction.x, args.direction.y);
+                Face(this, new FaceIntentSpecifiedArgs(Quaternion.Euler(0, faceAngle, 0)));
 
-            Animate(AnimateState.Run);
+                //cancel skill movement if hasCurrent but hasnt committed
+                if (this._skillSet.HasCurrent())
+                {
+                    this._skillSet.CancelCurrent();
+                }
+
+
+
+                Animate(AnimateState.Run);
+            }
         }
     }
 
@@ -115,15 +133,9 @@ public class Player : MonoBehaviour
     {
         //Debug.Log(String.Format("Player Facing x: {0}", args.direction));
 
-        if (committedSkillIdentifier == "" && !isToldToFire)
+        if (committedSkillIdentifier == "")
         {            
             transform.rotation = args.direction;   
-        }
-
-        if (committedSkillIdentifier != "" && isToldToFire)
-        {
-            transform.rotation = args.direction;   
-
         }
     }
 
@@ -157,10 +169,26 @@ public class Player : MonoBehaviour
             case AnimateState.StopAttack:
                 {
                     anim.SetBool("isAttackingMelee", false);
+                    this.committedSkillIdentifier = "";
                     break;
                 }
 
         }                
+    }
+
+
+    public void SkillBegun(object sender, SkillFiredArgs args) // animation begins
+    {
+        //cancel current if need be
+        if (this._skillSet.HasCurrent())
+        {
+            this._skillSet.CancelCurrent();
+        }
+
+        //set current
+        this._skillSet.SetCurrent((Skill)sender);
+
+        anim.SetBool("isAttackingMelee", true);
     }
 
     public void SkillAnimCommit(string skillIdentifier)
@@ -172,13 +200,13 @@ public class Player : MonoBehaviour
     {
         //anim.SetBool("isAttackingMelee", false);
         Animate(AnimateState.StopAttack);
-        this.committedSkillIdentifier = "";
     }
 
     //this is where skill is actually executed
     public void SkillAnimMainExecute()
     {
         Debug.Log(this._operator.GetSummary());
-        this._skillSet.UsePrimary();
+        Skill current = this._skillSet.ExecuteCurrent();
+        Debug.Log("Executing " + current.GetIdentifier());
     }
 }

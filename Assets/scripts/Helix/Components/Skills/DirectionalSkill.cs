@@ -21,6 +21,7 @@ namespace Helix.Components.Skills
 
         public override void Execute()
         {
+            base.Execute();
             Implementation();
         }
 
