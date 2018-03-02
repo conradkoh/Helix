@@ -51,6 +51,7 @@ public class Player : MonoBehaviour
 
         //skill initialization
         this._skillSet = new SkillSet();
+        this._skillSet.shouldDealDamage += DealDamage;
 
         var skill = this._skillSet.AddSkillWithIdentifier("MeleeBasicSkill");
         skill.SkillBegun += this.SkillBegun;
@@ -65,11 +66,37 @@ public class Player : MonoBehaviour
     }
 
     public void Cast(object sender, CastIntentSpecifiedArgs args)
-    {
-        Debug.Log("casting");
+    {        
         isToldToFire = true;
         Face(this, new FaceIntentSpecifiedArgs(args.direction));
-        this._skillSet.BeginPrimary();
+
+        switch (args.skillType)
+        {
+            case SkillType.primary:
+                {
+                    this._skillSet.BeginPrimary();
+                    break;
+                }
+
+            case SkillType.attackSkillPrimary:
+                {                    
+                    break;   
+                }
+            case SkillType.attackSkillSecondary:
+                {
+                    break;   
+                }
+            case SkillType.moveSkillPrimary:
+                {
+                    break;   
+                }
+            case SkillType.moveSkillSecondary:
+                {
+                    break;   
+                }
+
+        }
+
     }
 
     public void CastEnd(object sender, CastIntentSpecifiedArgs args)
@@ -109,10 +136,7 @@ public class Player : MonoBehaviour
                 Face(this, new FaceIntentSpecifiedArgs(Quaternion.Euler(0, faceAngle, 0)));
 
                 //cancel skill movement if hasCurrent but hasnt committed
-                if (this._skillSet.HasCurrent())
-                {
-                    this._skillSet.CancelCurrent();
-                }
+                SkillCancel();
 
 
 
@@ -180,15 +204,21 @@ public class Player : MonoBehaviour
     public void SkillBegun(object sender, SkillFiredArgs args) // animation begins
     {
         //cancel current if need be
-        if (this._skillSet.HasCurrent())
-        {
-            this._skillSet.CancelCurrent();
-        }
+        SkillCancel();
 
         //set current
         this._skillSet.SetCurrent((Skill)sender);
 
+        //begin animation
         anim.SetBool("isAttackingMelee", true);
+    }
+
+    public void SkillCancel()
+    {
+        if (this._skillSet.HasCurrent())
+        {
+            this._skillSet.CancelCurrent();
+        }
     }
 
     public void SkillAnimCommit(string skillIdentifier)
@@ -205,8 +235,12 @@ public class Player : MonoBehaviour
     //this is where skill is actually executed
     public void SkillAnimMainExecute()
     {
-        Debug.Log(this._operator.GetSummary());
+        //Debug.Log(this._operator.GetSummary());
         Skill current = this._skillSet.ExecuteCurrent();
-        Debug.Log("Executing " + current.GetIdentifier());
+    }
+
+    public void DealDamage(System.Object sender, ShouldDealDamageArgs args)
+    {
+        
     }
 }

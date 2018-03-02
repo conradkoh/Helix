@@ -12,13 +12,21 @@ namespace Helix.Components.Skills
         private Skill _secondarySkill;
         private Skill current;
 
+        public ShouldDealDamage shouldDealDamage;
+
         public SkillSet()
         {
+            
         }
 
         public void Load(List<Skill> skills)
         {
             this._skills = skills;
+
+            foreach (Skill skill in this._skills)
+            {
+                skill.shouldDealDamage += this.shouldDealDamage; //subscribe to skill's shoulddealdamage event
+            }
         }
 
         public Skill AddSkillWithIdentifier(string identifier)
@@ -27,7 +35,7 @@ namespace Helix.Components.Skills
 
             if (skill != null)
             {
-                this._skills.Add(skill);
+                this.Add(skill);
             }
 
             return skill;
@@ -35,6 +43,7 @@ namespace Helix.Components.Skills
 
         public void Add(Skill skill)
         {
+            skill.shouldDealDamage += this.shouldDealDamage; //subscribe to skill's shoulddealdamage event
             this._skills.Add(skill);
         }
 

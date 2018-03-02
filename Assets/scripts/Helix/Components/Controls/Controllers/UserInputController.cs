@@ -18,7 +18,6 @@ namespace Helix.Components.Controls.Controllers
         public event FaceIntentSpecified Face;
         public event CastIntentSpecified Cast;
         public event CastIntentSpecified CastEnd;
-        public event AnimateIntentSpecified Animate;
 
         private UserInputControls.UserInputControl _controls;
 

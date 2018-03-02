@@ -10,6 +10,7 @@ namespace Helix.Components.Skills
     {
         
         public event SkillFired SkillBegun;
+        public event ShouldDealDamage shouldDealDamage;
 
         protected string _identifier;
         //default cooldown in seconds
@@ -38,6 +39,14 @@ namespace Helix.Components.Skills
         public virtual void Execute() //override must use base.Execute(),because this sets cooldown to begin
         {            
             _lastCasted = DateTime.Now;
+        }
+
+        public void DealDamage(GameObject receiver, DamageType damageType, float damageAmount)
+        {
+            if (shouldDealDamage != null)
+            {
+                shouldDealDamage(this, new ShouldDealDamageArgs(receiver, damageType, damageAmount));
+            }
         }
     }
 

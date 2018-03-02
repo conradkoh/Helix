@@ -21,7 +21,7 @@ namespace Helix.Components.Skills
 
         public override void Execute()
         {
-            base.Execute();
+            base.Execute(); //IMPORTANT, sets cooldown to begin
             Implementation();
         }
 
