@@ -236,11 +236,16 @@ public class Player : MonoBehaviour
     public void SkillAnimMainExecute()
     {
         //Debug.Log(this._operator.GetSummary());
-        Skill current = this._skillSet.ExecuteCurrent();
+        Skill current = this._skillSet.ExecuteCurrent(this);
     }
 
     public void DealDamage(System.Object sender, ShouldDealDamageArgs args)
     {
-        
+        Operator playerOp = args.damageReceiver.GetComponent<Operator>();
+        if (playerOp != null)
+        {
+            playerOp.TakeDamage(args.damageAmount);
+        }
+
     }
 }

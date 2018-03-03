@@ -15,7 +15,6 @@ namespace Helix.Components.Skills
         protected string _identifier;
         //default cooldown in seconds
         protected float _cooldown = 2.0f;
-
         protected DateTime _lastCasted = DateTime.Now;
 
         public void Begin() //checks cooldown here
@@ -36,7 +35,7 @@ namespace Helix.Components.Skills
             return this._identifier;
         }
 
-        public virtual void Execute() //override must use base.Execute(),because this sets cooldown to begin
+        public virtual void Execute(Player caster) //override must use base.Execute(),because this sets cooldown to begin
         {            
             _lastCasted = DateTime.Now;
         }

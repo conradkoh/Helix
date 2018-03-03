@@ -19,13 +19,13 @@ namespace Helix.Components.Skills
             
         }
 
-        public override void Execute()
+        public override void Execute(Player caster)
         {
-            base.Execute(); //IMPORTANT, sets cooldown to begin
-            Implementation();
+            base.Execute(caster); //IMPORTANT, sets cooldown to begin
+            Implementation(caster);
         }
 
-        public abstract void Implementation();
+        public abstract void Implementation(Player caster);
     }
 }
 

@@ -21,11 +21,10 @@ namespace Helix.Components.Skills
 
         public void Load(List<Skill> skills)
         {
-            this._skills = skills;
-
+            this._skills.Clear();
             foreach (Skill skill in this._skills)
             {
-                skill.shouldDealDamage += this.shouldDealDamage; //subscribe to skill's shoulddealdamage event
+                this.Add(skill);
             }
         }
 
@@ -43,7 +42,7 @@ namespace Helix.Components.Skills
 
         public void Add(Skill skill)
         {
-            skill.shouldDealDamage += this.shouldDealDamage; //subscribe to skill's shoulddealdamage event
+            skill.shouldDealDamage += ShouldDealDamage; //subscribe to skill's shoulddealdamage event
             this._skills.Add(skill);
         }
 
@@ -70,27 +69,11 @@ namespace Helix.Components.Skills
             }
         }
 
-        public void ExecutePrimary()
-        {
-            if (this._primarySkill != null)
-            {
-                this._primarySkill.Execute();
-            }
-        }
-
         public void BeginSecondary()
         {
             if (this._secondarySkill != null)
             {
                 this._secondarySkill.Begin();
-            }
-        }
-
-        public void ExecuteSecondary()
-        {
-            if (this._secondarySkill != null)
-            {
-                this._secondarySkill.Execute();
             }
         }
 
@@ -110,9 +93,9 @@ namespace Helix.Components.Skills
             this.current = skill;
         }
 
-        public Skill ExecuteCurrent()
+        public Skill ExecuteCurrent(Player caster)
         {
-            this.current.Execute();
+            this.current.Execute(caster);
 
             return current;
         }
@@ -123,7 +106,13 @@ namespace Helix.Components.Skills
         }
 
 
-
+        public void ShouldDealDamage(System.Object sender, ShouldDealDamageArgs args)
+        {
+            if (this.shouldDealDamage != null)
+            {
+                this.shouldDealDamage(sender, args);
+            }
+        }
 
         public Skill SkillInSetWithIdentifier(string identifier)
         {

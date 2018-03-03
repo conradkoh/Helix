@@ -12,7 +12,7 @@ namespace Helix.Components.Skills
         }
 
 
-        public override void Implementation()
+        public override void Implementation(Player caster)
         {
 
         }
