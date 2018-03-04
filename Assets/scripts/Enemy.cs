@@ -6,8 +6,6 @@ using Helix.Components.Operator;
 
 public class Enemy : MonoBehaviour
 {
-
-    public float health = 0;
     private Operator _operator;
 
     public Animator anim;
@@ -20,12 +18,17 @@ public class Enemy : MonoBehaviour
 
     public void Awake()
     {
-        this._operator = new Operator(new OperatorStats(this.health, 0, 0, 0, 50f));
+        this._operator = new Operator(new OperatorStats(100, 0, 0, 0, 50f));
 
         navAgent = GetComponent<NavMeshAgent>() == null ? gameObject.AddComponent<NavMeshAgent>() : null;
 
         navAgent.angularSpeed = 10000;
         navAgent.acceleration = 10000;
+
+
+        HealthBar healthBar = gameObject.AddComponent<HealthBar>();
+        healthBar.Link(GetOperator());
+
     }
     // Use this for initialization
     void Start()
@@ -67,5 +70,10 @@ public class Enemy : MonoBehaviour
         {
             navAgent.SetDestination(target);
         }
+    }
+
+    public Operator GetOperator()
+    {
+        return _operator;
     }
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Helix.Components.Skills.Events;
+using Helix.Components.Operator;
 
 namespace Helix.Components.Skills
 {
@@ -40,7 +41,7 @@ namespace Helix.Components.Skills
             _lastCasted = DateTime.Now;
         }
 
-        public void DealDamage(GameObject receiver, DamageType damageType, float damageAmount)
+        public void DealDamage(Operator.Operator receiver, DamageType damageType, float damageAmount)
         {
             if (shouldDealDamage != null)
             {

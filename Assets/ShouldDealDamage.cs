@@ -1,14 +1,14 @@
 ﻿using System;
 using UnityEngine;
-
+using Helix.Components.Operator;
 
 public class ShouldDealDamageArgs
 {
-    public GameObject damageReceiver;
+    public Operator damageReceiver;
     public DamageType damageType;
     public float damageAmount;
 
-    public ShouldDealDamageArgs(GameObject receiver, DamageType damageType, float damageAmount)
+    public ShouldDealDamageArgs(Operator receiver, DamageType damageType, float damageAmount)
     {
         this.damageReceiver = receiver;
         this.damageType = damageType;

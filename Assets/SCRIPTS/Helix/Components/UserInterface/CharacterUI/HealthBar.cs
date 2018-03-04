@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Helix.Components.Operator;
 
 public class HealthBar : MonoBehaviour
 {
@@ -91,4 +92,23 @@ public class HealthBar : MonoBehaviour
         minRt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, currentWidth);
         minRt.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, barHeight);
     }
+
+    public void HealthUpdated(Operator sender)
+    {
+        if (sender.GetMaxStats().GetHealth() != 0)
+        {            
+            float healthPerc = sender.GetStats().GetHealth() / sender.GetMaxStats().GetHealth();
+            SetHealth(healthPerc);
+        }
+        else
+        {
+            Debug.Log("Max health is 0");    
+        }
+    }
+
+    public void Link(Operator oper)
+    {
+        oper.HealthUpdated += HealthUpdated;
+    }
+
 }

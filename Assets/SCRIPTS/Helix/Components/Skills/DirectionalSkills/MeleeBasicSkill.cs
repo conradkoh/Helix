@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using Helix.Components.Operator;
 
 namespace Helix.Components.Skills
 {
@@ -18,12 +19,29 @@ namespace Helix.Components.Skills
 
             Collider[] targets = Physics.OverlapBox(caster.transform.position + caster.transform.forward + caster.transform.up / 2 + new Vector3(0, 0.1f, 0), new Vector3(this.Range, 0.5f, this.Range), caster.transform.rotation);
 
+            float distance = Mathf.Infinity;
+            Enemy finalTarget = null;
 
+            //find closest target
             foreach (Collider target in targets)
             {
-                Debug.Log(target.gameObject.name);
+                Enemy thisOperator = target.gameObject.GetComponent<Enemy>();
+                if (thisOperator != null)
+                {
+                    float targetDistance = Vector3.Distance(target.transform.position, caster.transform.position);
+                    if (targetDistance < distance)
+                    {
+                        distance = targetDistance;
+                        finalTarget = thisOperator;
+                    }   
+                }
             }
+                               
 
+            if (finalTarget != null)
+            {
+                DealDamage(finalTarget.GetOperator(), DamageType.physical, caster.GetAttack());   
+            }
         }
     }
 }

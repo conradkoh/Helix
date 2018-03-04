@@ -39,7 +39,7 @@ public class Player : MonoBehaviour
     public void InitPlayer()
     {
 
-        this._operator = new Operator(new OperatorStats(this.health, 0, 0, 0, 50f));
+        this._operator = new Operator(new OperatorStats(this.health, 0, 10, 0, 50f));
 
         //control event subscriptions
         //controller.Fire += Fire;
@@ -241,11 +241,21 @@ public class Player : MonoBehaviour
 
     public void DealDamage(System.Object sender, ShouldDealDamageArgs args)
     {
-        Operator playerOp = args.damageReceiver.GetComponent<Operator>();
+        Operator playerOp = args.damageReceiver;
         if (playerOp != null)
         {
             playerOp.TakeDamage(args.damageAmount);
         }
 
     }
+
+
+    #region operator
+
+    public float GetAttack()
+    {
+        return _operator.GetStats().attack;
+    }
+
+    #endregion
 }
