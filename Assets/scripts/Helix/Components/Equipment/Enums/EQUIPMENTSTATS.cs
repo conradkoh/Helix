@@ -2,7 +2,7 @@
 
 namespace Helix.Components.Equipment
 {
-    public enum EquipmentStats
+    public enum EQUIPMENTSTATS
     {
         HEALTH = 1,
         ARMOR = 2,

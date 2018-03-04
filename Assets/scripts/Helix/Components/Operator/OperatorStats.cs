@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Helix.Components.Equipment;
+
 using UnityEngine;
 
 namespace Helix.Components.Operator
@@ -13,12 +15,13 @@ namespace Helix.Components.Operator
         public float armorPenetration = 0;
         public float movementSpeed = 0;
 
-        public OperatorStats(List<Equipment> equipment)
+        public OperatorStats(EquipmentSet equipmentSet)
         {
-            foreach (Equipment eq in equipment)
-            {
-                this.Equip(eq);
-            }
+            this.health = equipmentSet.GetProperty(EQUIPMENTSTATS.HEALTH);
+            this.armor = equipmentSet.GetProperty(EQUIPMENTSTATS.ARMOR);
+            this.attack = equipmentSet.GetProperty(EQUIPMENTSTATS.ATTACK);
+            this.armorPenetration = equipmentSet.GetProperty(EQUIPMENTSTATS.ARMOR_PENETRATION);
+            this.movementSpeed = equipmentSet.GetProperty(EQUIPMENTSTATS.MOVEMENT_SPEED);
         }
 
         public OperatorStats(float health, float armor = 0, float attack = 0, float armorPenetration = 0, float movementSpeed = 0)
@@ -41,22 +44,22 @@ namespace Helix.Components.Operator
             );
         }
 
-        public void Equip(Equipment eq)
+        public void Equip(Equipment.Item eq)
         {
-            this.health += eq.health;
-            this.armor += eq.armor;
-            this.attack += eq.attack;
-            this.armorPenetration += eq.armorPenetration;
-            this.movementSpeed += eq.movementSpeed;
+            this.health += (eq.GetProperty(EQUIPMENTSTATS.HEALTH) == -1) ? 0 : eq.GetProperty(EQUIPMENTSTATS.HEALTH);
+            this.armor += (eq.GetProperty(EQUIPMENTSTATS.ARMOR) == -1) ? 0 : eq.GetProperty(EQUIPMENTSTATS.ARMOR);
+            this.attack += (eq.GetProperty(EQUIPMENTSTATS.ATTACK) == -1) ? 0 : eq.GetProperty(EQUIPMENTSTATS.ATTACK);
+            this.armorPenetration += (eq.GetProperty(EQUIPMENTSTATS.ARMOR_PENETRATION) == -1) ? 0 : eq.GetProperty(EQUIPMENTSTATS.ARMOR_PENETRATION);
+            this.movementSpeed += (eq.GetProperty(EQUIPMENTSTATS.MOVEMENT_SPEED) == -1) ? 0 : eq.GetProperty(EQUIPMENTSTATS.MOVEMENT_SPEED);
         }
 
-        public void UnEquip(Equipment eq)
+        public void UnEquip(Equipment.Item eq)
         {
-            this.health -= eq.health;
-            this.armor -= eq.armor;
-            this.attack -= eq.attack;
-            this.armorPenetration -= eq.armorPenetration;
-            this.movementSpeed -= eq.movementSpeed;
+            this.health -= (eq.GetProperty(EQUIPMENTSTATS.HEALTH) == -1) ? 0 : eq.GetProperty(EQUIPMENTSTATS.HEALTH);
+            this.armor -= (eq.GetProperty(EQUIPMENTSTATS.ARMOR) == -1) ? 0 : eq.GetProperty(EQUIPMENTSTATS.ARMOR);
+            this.attack -= (eq.GetProperty(EQUIPMENTSTATS.ATTACK) == -1) ? 0 : eq.GetProperty(EQUIPMENTSTATS.ATTACK);
+            this.armorPenetration -= (eq.GetProperty(EQUIPMENTSTATS.ARMOR_PENETRATION) == -1) ? 0 : eq.GetProperty(EQUIPMENTSTATS.ARMOR_PENETRATION);
+            this.movementSpeed -= (eq.GetProperty(EQUIPMENTSTATS.MOVEMENT_SPEED) == -1) ? 0 : eq.GetProperty(EQUIPMENTSTATS.MOVEMENT_SPEED);
         }
 
         public float GetHealth()

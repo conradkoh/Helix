@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Helix.Components.Health;
+using Helix.Components.Equipment;
 using UnityEngine;
 
 namespace Helix.Components.Operator
@@ -11,7 +12,7 @@ namespace Helix.Components.Operator
         private OperatorStats _baseStats;
         private OperatorStats _currentStats;
         private OperatorStats _maxStats;
-        private List<Equipment> _equipment = new List<Equipment>();
+        private EquipmentSet _equipmentSet = new EquipmentSet();
 
         public OperatorEvent HealthUpdated;
         public OperatorEvent OperatorDied;
@@ -19,9 +20,9 @@ namespace Helix.Components.Operator
         public Operator(OperatorStats stats)
         {
             this._baseStats = stats;
-            var eqstats = new OperatorStats(this._equipment); //Get the equipment stats from the user
-            this._maxStats = OperatorStats.Add(stats, eqstats); 
-            this._currentStats = OperatorStats.Add(stats, eqstats);
+            var eqstats = new OperatorStats(this._equipmentSet); //Get the equipment stats from the user
+            this._maxStats = OperatorStats.Add(this._baseStats, eqstats); 
+            this._currentStats = OperatorStats.Add(this._baseStats, eqstats);
         }
 
         public void TakeDamage(float amount)
@@ -66,10 +67,16 @@ namespace Helix.Components.Operator
             return this._maxStats;
         }
 
-
-        public List<Equipment> GetEquipment()
+        public void Equip(Item item, bool debug = true)
         {
-            return this._equipment;
+            this._equipmentSet.Equip(item);
+            var eqstats = new OperatorStats(this._equipmentSet); //Get the equipment stats from the user
+            this._maxStats = OperatorStats.Add(this._baseStats, eqstats); 
+            this._currentStats = OperatorStats.Add(this._baseStats, eqstats);
+            if (debug)
+            {
+                Debug.Log("Equipping item.");
+            }
         }
 
         public string GetSummary()

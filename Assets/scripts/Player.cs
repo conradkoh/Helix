@@ -6,6 +6,7 @@ using Helix.Components.Controls.Events;
 using Helix.Components.Operator;
 using Helix.Components.Skills;
 using Helix.Components.Skills.Events;
+using Helix.Components.Equipment;
 
 public class Player : MonoBehaviour
 {
@@ -40,6 +41,17 @@ public class Player : MonoBehaviour
     {
 
         this._operator = new Operator(new OperatorStats(this.health, 0, 10, 0, 50f));
+        try
+        {
+            var test_item_properties = new Dictionary<EQUIPMENTSTATS, float>();
+            test_item_properties.Add(EQUIPMENTSTATS.ATTACK, 20f);
+            var test_item = new TestItem1(test_item_properties);
+            this._operator.Equip(test_item);
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.Message);
+        }
 
         //control event subscriptions
         //controller.Fire += Fire;
