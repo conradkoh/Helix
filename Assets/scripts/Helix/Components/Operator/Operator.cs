@@ -14,6 +14,7 @@ namespace Helix.Components.Operator
         private List<Equipment> _equipment = new List<Equipment>();
 
         public OperatorEvent HealthUpdated;
+        public OperatorEvent OperatorDied;
 
         public Operator(OperatorStats stats)
         {
@@ -30,7 +31,14 @@ namespace Helix.Components.Operator
             if (HealthUpdated != null)
             {
                 HealthUpdated(this);
-            }                
+            }
+            if (this._currentStats.health <= 0)
+            {
+                if (this.OperatorDied != null)
+                {
+                    OperatorDied(this);
+                }
+            }
         }
 
         public void Heal(float amount)
