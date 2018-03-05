@@ -41,11 +41,8 @@ namespace Helix.Components.Controls.UserInputControls
                 moveDirection += new Vector2(1, 0);
             }                
                 
-            if (this.DidIntendMove != null)
-            {
-                this.DidIntendMove(moveDirection.normalized);
-            }
 
+            //if no keys at all
             if (!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.D))
             {
                 if (this.DidIntendMoveEnd != null)
@@ -53,6 +50,11 @@ namespace Helix.Components.Controls.UserInputControls
                     this.DidIntendMoveEnd(Vector2.zero);
                 }
             }
+            else if (this.DidIntendMove != null)
+            {
+                this.DidIntendMove(moveDirection.normalized);
+            }
+
 
             #endregion
 

@@ -114,31 +114,21 @@ public class Player : MonoBehaviour
     public void CastEnd(object sender, CastIntentSpecifiedArgs args)
     {
         isToldToFire = false;
-        if (committedSkillIdentifier != "")
+        if (this.IsCommitted())
         {
-            Animate(AnimateState.StopAttack);   
+            //Animate(AnimateState.StopAttack);   
         }
     }
-    //
-    //
-    //    public void Fire(object sender, FireIntentSpecifiedArgs args)
-    //    {
-    //        //face direction to fire
-    //        Face(this, new FaceIntentSpecifiedArgs(args.direction));
-    //        this._skillSet.UsePrimary();
-    //    }
-    //
-
 
     public void Move(object sender, MoveIntentSpecifiedArgs args)
-    {
+    {        
         isToldToMove = true;
 
         if (committedSkillIdentifier == "")
         {
             if (isToldToFire)
             {
-                Animate(AnimateState.StopRun);
+                Animate("EndRun");
             }
             else
             {
@@ -149,10 +139,7 @@ public class Player : MonoBehaviour
 
                 //cancel skill movement if hasCurrent but hasnt committed
                 SkillCancel();
-
-
-
-                Animate(AnimateState.Run);
+                Animate("Run");
             }
         }
     }
@@ -160,8 +147,7 @@ public class Player : MonoBehaviour
     public void MoveEnd(object sender, MoveIntentSpecifiedArgs args)
     {
         isToldToMove = false;
-
-        Animate(AnimateState.StopRun);
+        Animate("EndRun");
     }
 
 
@@ -169,43 +155,47 @@ public class Player : MonoBehaviour
     {
         //Debug.Log(String.Format("Player Facing x: {0}", args.direction));
 
-        if (committedSkillIdentifier == "")
+        if (!this.IsCommitted())
         {            
             transform.rotation = args.direction;   
         }
     }
 
 
-    public void Animate(AnimateState state)
+    public void Animate(string state)
     {
 
         switch (state)
         {
-            case AnimateState.None:
+            case "Clear":
                 {
                     anim.SetInteger("isRunning", 0);
                     anim.SetBool("isAttackingMelee", false);                      
                     break;
                 }
-            case AnimateState.Run:
+            case "Run":
                 {                    
                     anim.SetInteger("isRunning", 1);   
                     break;
                 }
-            case AnimateState.StopRun:
+            case "EndRun":
                 {                    
                     anim.SetInteger("isRunning", 0);   
                     break;
                 }
-            case AnimateState.Attack:
+            case "Attack":
                 {
                     //anim.SetBool("isAttackingMelee", true);
                     break;
                 }
-            case AnimateState.StopAttack:
+            case "DeCommitAttack":
+                {
+                    this.committedSkillIdentifier = "";
+                    break;
+                }
+            case "EndAttack":
                 {
                     anim.SetBool("isAttackingMelee", false);
-                    this.committedSkillIdentifier = "";
                     break;
                 }
 
@@ -231,24 +221,34 @@ public class Player : MonoBehaviour
         {
             this._skillSet.CancelCurrent();
         }
+
+        if (!this.IsCommitted())
+        {
+            Animate("Clear"); 
+        }
     }
 
     public void SkillAnimCommit(string skillIdentifier)
     {
         this.committedSkillIdentifier = skillIdentifier;
     }
-
-    public void SkillAnimCommitEnd()
-    {
-        //anim.SetBool("isAttackingMelee", false);
-        Animate(AnimateState.StopAttack);
-    }
-
+        
     //this is where skill is actually executed
     public void SkillAnimMainExecute()
     {
         //Debug.Log(this._operator.GetSummary());
         Skill current = this._skillSet.ExecuteCurrent(this);
+    }
+
+    public void SkillAnimCommitEnd()
+    {
+        //anim.SetBool("isAttackingMelee", false);
+        Animate("DeCommitAttack");
+    }
+
+    public void SkillAnimCompleted()
+    {
+        Animate("EndAttack");
     }
 
     public void DealDamage(System.Object sender, ShouldDealDamageArgs args)
@@ -270,4 +270,10 @@ public class Player : MonoBehaviour
     }
 
     #endregion
+
+
+    private bool IsCommitted()
+    {
+        return committedSkillIdentifier != "";
+    }
 }

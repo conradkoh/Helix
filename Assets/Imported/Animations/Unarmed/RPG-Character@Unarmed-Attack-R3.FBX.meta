@@ -201,8 +201,16 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.8650519
+      - time: 0.55773485
         functionName: SkillAnimCommitEnd
+        data: MeleeBasicSkill
+        objectReferenceParameter: {fileID: 11500000, guid: b3a115f3e0ae14b438c771379f846147,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 1
+        functionName: SkillAnimCompleted
         data: MeleeBasicSkill
         objectReferenceParameter: {fileID: 11500000, guid: b3a115f3e0ae14b438c771379f846147,
           type: 3}
