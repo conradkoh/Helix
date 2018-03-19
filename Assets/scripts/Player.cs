@@ -65,9 +65,9 @@ public class Player : MonoBehaviour
         this._skillSet = new SkillSet();
         this._skillSet.shouldDealDamage += DealDamage;
 
-        var skill = this._skillSet.AddSkillWithIdentifier("MeleeBasicSkill");
+        var skill = this._skillSet.AddSkillWithIdentifier("RangeBasicSkill");
         skill.SkillBegun += this.SkillBegun;
-        _skillSet.BindPrimary("MeleeBasicSkill"); //Temporary hard code of skills for testing
+        _skillSet.BindPrimary("RangeBasicSkill"); //Temporary hard code of skills for testing
 
 
         anim = GetComponent<Animator>();

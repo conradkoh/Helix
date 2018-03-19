@@ -8,6 +8,7 @@ namespace Helix.Components.Skills
 
         public float Damage { get; set; }
 
+
         public DirectionalSkill(float range, float damage)
         {
             this.Range = range;
