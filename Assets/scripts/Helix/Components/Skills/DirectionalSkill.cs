@@ -4,15 +4,15 @@ namespace Helix.Components.Skills
 {
     public abstract class DirectionalSkill : Skill
     {
-        public float Range { get; set; }
+        public float range { get; set; }
 
-        public float Damage { get; set; }
+        public float damage { get; set; }
 
 
         public DirectionalSkill(float range, float damage)
         {
-            this.Range = range;
-            this.Damage = damage;
+            this.range = range;
+            this.damage = damage;
         }
 
         public DirectionalSkill()

@@ -37,18 +37,17 @@ public class SimpleProjectile : MonoBehaviour
     void Update()
     {
         transform.position += direction.normalized * speed;
-
         if (Vector3.Distance(transform.position, start) > decayRange && decayRange != 0)
         {            
             GameObject.Destroy(gameObject);
         }
     }
 
-    public void OnCollisionEnter(Collision collision)
+    public void OnTriggerEnter(Collider collider)
     {
         if (onCollision != null)
         {  
-            onCollision(new ProjectileEventArgs(this.gameObject, collision.collider.gameObject));
+            onCollision(new ProjectileEventArgs(this.gameObject, collider.gameObject));
         }
     }
 }

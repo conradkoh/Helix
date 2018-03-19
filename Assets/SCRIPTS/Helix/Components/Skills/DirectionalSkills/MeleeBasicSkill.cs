@@ -9,7 +9,7 @@ namespace Helix.Components.Skills
         public MeleeBasicSkill()
         {            
             this._identifier = "MeleeBasicSkill";
-            this.Range = 1;
+            this.range = 1;
         }
 
         public override void Implementation(Player caster)
@@ -17,7 +17,7 @@ namespace Helix.Components.Skills
             Debug.Log("Melee implementation called"); 
             this._lastCasted = DateTime.Now;
 
-            Collider[] targets = Physics.OverlapBox(caster.transform.position + caster.transform.forward + caster.transform.up / 2 + new Vector3(0, 0.1f, 0), new Vector3(this.Range, 0.5f, this.Range), caster.transform.rotation);
+            Collider[] targets = Physics.OverlapBox(caster.transform.position + caster.transform.forward + caster.transform.up / 2 + new Vector3(0, 0.1f, 0), new Vector3(this.range, 0.5f, this.range), caster.transform.rotation);
 
             float distance = Mathf.Infinity;
             Enemy finalTarget = null;
